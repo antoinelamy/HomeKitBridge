@@ -15,28 +15,28 @@
 -(void)setupLIFXMonitoring;
 @end
 
-
-
 @interface AppDelegate ()
+
 @property (weak) IBOutlet NSWindow *window; // Window left in case I want to add UI at any point
 
 // Menu bar item
-@property (nonatomic, strong) NSStatusItem *statusItem;
-@property (nonatomic, strong) NSMenu *lightsMenu;
+@property (nonatomic) NSStatusItem *statusItem;
+@property (nonatomic) NSMenu *lightsMenu;
 
 // Lights dictionary. { serialNumber : lightAccessoryObject }
-@property (nonatomic, strong) NSMutableDictionary *lights;
+@property (nonatomic) NSMutableDictionary *lights;
 
 
--(NSMenuItem*)createMenuItemForAccessory:(HKBAccessory*)_accessory;
--(NSMenuItem*)menuItemForAccessory:(HKBAccessory*)_accessory;
+- (NSMenuItem *)createMenuItemForAccessory:(HKBAccessory *)_accessory;
+- (NSMenuItem *)menuItemForAccessory:(HKBAccessory *)_accessory;
 @end
 
 
 
 @implementation AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
 	// Create variables
 	self.lights = [NSMutableDictionary dictionary];
 	
@@ -61,20 +61,20 @@
 	[self setupLIFXMonitoring];
 }
 
-
-
--(NSMenuItem*)createMenuItemForAccessory:(HKBAccessory*)_accessory{
-	NSString *title = [_accessory.name stringByAppendingFormat:@" - PIN: %@", _accessory.passcode];
-	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:_accessory.name];
+- (NSMenuItem *)createMenuItemForAccessory:(HKBAccessory *)accessory
+{
+	NSString *title = [NSString stringWithFormat:@"%@ - PIN: %@", accessory.information.name ?: @"", accessory.passcode];
+	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:title];
 	return menuItem;
 }
 
--(NSMenuItem*)menuItemForAccessory:(HKBAccessory*)_accessory{
+- (NSMenuItem *)menuItemForAccessory:(HKBAccessory *)accessory
+{
 	NSMenuItem *item = nil;
 	
 	for (NSMenuItem *menuItem in self.lightsMenu.itemArray) {
-		HKBAccessory *accessory = [menuItem representedObject];
-		if (accessory == _accessory) {
+		HKBAccessory *menuAccessory = [menuItem representedObject];
+		if (menuAccessory == accessory) {
 			item = menuItem;
 			break;
 		}
@@ -88,33 +88,29 @@
 
 
 
-
-
-
-
-
-
 @implementation AppDelegate (LIFX)
 
--(void)setupLIFXMonitoring{
+- (void)setupLIFXMonitoring
+{
 	// Everything above this point in the code is generalisable, for this point it is an example using the LIFX SDK.
 	[[[LFXClient sharedClient] localNetworkContext].allLightsCollection addLightCollectionObserver:self];
 }
 
 
-
-
 #pragma mark LFXLightCollectionObserver
 
--(void)lightCollection:(LFXLightCollection *)lightCollection didAddLight:(LFXLight *)light{
+- (void)lightCollection:(LFXLightCollection *)lightCollection didAddLight:(LFXLight *)light
+{
 	[self addLight:light];
 }
--(void)lightCollection:(LFXLightCollection *)lightCollection didRemoveLight:(LFXLight *)light{
+
+- (void)lightCollection:(LFXLightCollection *)lightCollection didRemoveLight:(LFXLight *)light
+{
 	[self removeLight:light];
 }
 
-
--(void)addLight:(LFXLight*)lifxLight{
+- (void)addLight:(LFXLight *)lifxLight
+{
 	if (self.lights[lifxLight.deviceID] != nil) { return; }
 	
 	// Create light
@@ -128,7 +124,9 @@
 	[menuItem setRepresentedObject:light];
 	[self.lightsMenu addItem:menuItem];
 }
--(void)removeLight:(LFXLight*)lifxLight{
+
+- (void)removeLight:(LFXLight *)lifxLight
+{
 	if (self.lights[lifxLight.deviceID] == nil) { return; }
 	
 	// Remove menu item

@@ -17,10 +17,13 @@
 		C7397D7C19E978C100FF9EA3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7397D7A19E978C100FF9EA3 /* MainMenu.xib */; };
 		C7397D8819E978C200FF9EA3 /* HomeKitBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397D8719E978C200FF9EA3 /* HomeKitBridgeTests.m */; };
 		C7397E7C19E9849E00FF9EA3 /* HKBAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */; };
-		C7397E8019E9859F00FF9EA3 /* HKBLightAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7F19E9859F00FF9EA3 /* HKBLightAccessory.m */; };
+		C7397E8019E9859F00FF9EA3 /* HKBLightBulbAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */; };
 		C7397E8219E9F59D00FF9EA3 /* LIFXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; };
 		C7397E8519E9FC7300FF9EA3 /* LIFXKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C78BEFE619EB68660005278C /* HKBLightAccessoryLIFX.m in Sources */ = {isa = PBXBuildFile; fileRef = C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */; };
+		EDA599741A839A7200F7A2B9 /* HKBSwitchAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */; };
+		EDAAEC131A82FF4E0071F7A4 /* HKBAccessoryInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */; };
+		EDAAEC161A8307230071F7A4 /* HKBTransportManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,12 +178,17 @@
 		C7397E7519E97FAE00FF9EA3 /* HAKAccessoryKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAKAccessoryKit.h; sourceTree = "<group>"; };
 		C7397E7A19E9849E00FF9EA3 /* HKBAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBAccessory.h; sourceTree = "<group>"; };
 		C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBAccessory.m; sourceTree = "<group>"; };
-		C7397E7E19E9859F00FF9EA3 /* HKBLightAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBLightAccessory.h; sourceTree = "<group>"; };
-		C7397E7F19E9859F00FF9EA3 /* HKBLightAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBLightAccessory.m; sourceTree = "<group>"; };
+		C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBLightBulbAccessory.h; sourceTree = "<group>"; };
+		C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBLightBulbAccessory.m; sourceTree = "<group>"; };
 		C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LIFXKit.framework; sourceTree = "<group>"; };
 		C78BEFE419EB68660005278C /* HKBLightAccessoryLIFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBLightAccessoryLIFX.h; path = LIFX/HKBLightAccessoryLIFX.h; sourceTree = "<group>"; };
 		C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBLightAccessoryLIFX.m; path = LIFX/HKBLightAccessoryLIFX.m; sourceTree = "<group>"; };
-		C78BEFE719EB6B1C0005278C /* HKBLightAccessory+Subclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HKBLightAccessory+Subclass.h"; sourceTree = "<group>"; };
+		EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBSwitchAccessory.h; sourceTree = "<group>"; };
+		EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBSwitchAccessory.m; sourceTree = "<group>"; };
+		EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBAccessoryInformation.h; sourceTree = "<group>"; };
+		EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBAccessoryInformation.m; sourceTree = "<group>"; };
+		EDAAEC141A8307230071F7A4 /* HKBTransportManagerBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBTransportManagerBuilder.h; sourceTree = "<group>"; };
+		EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBTransportManagerBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,9 +407,14 @@
 			children = (
 				C7397E7A19E9849E00FF9EA3 /* HKBAccessory.h */,
 				C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */,
-				C78BEFE719EB6B1C0005278C /* HKBLightAccessory+Subclass.h */,
-				C7397E7E19E9859F00FF9EA3 /* HKBLightAccessory.h */,
-				C7397E7F19E9859F00FF9EA3 /* HKBLightAccessory.m */,
+				EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */,
+				EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */,
+				EDAAEC141A8307230071F7A4 /* HKBTransportManagerBuilder.h */,
+				EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */,
+				EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */,
+				EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */,
+				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
+				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
 				C78BEFE319EB681E0005278C /* LIFX Subclass */,
 			);
 			name = HomeKit;
@@ -517,10 +530,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7397D7719E978C100FF9EA3 /* AppDelegate.m in Sources */,
-				C7397E8019E9859F00FF9EA3 /* HKBLightAccessory.m in Sources */,
+				C7397E8019E9859F00FF9EA3 /* HKBLightBulbAccessory.m in Sources */,
 				C78BEFE619EB68660005278C /* HKBLightAccessoryLIFX.m in Sources */,
 				C7397E7C19E9849E00FF9EA3 /* HKBAccessory.m in Sources */,
+				EDA599741A839A7200F7A2B9 /* HKBSwitchAccessory.m in Sources */,
 				C7397D7419E978C100FF9EA3 /* main.m in Sources */,
+				EDAAEC131A82FF4E0071F7A4 /* HKBAccessoryInformation.m in Sources */,
+				EDAAEC161A8307230071F7A4 /* HKBTransportManagerBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

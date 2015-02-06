@@ -6,25 +6,21 @@
 //  Copyright (c) 2014 Kyle Howells. All rights reserved.
 //
 
-#import "HKBLightAccessory.h"
+#import "HKBLightBulbAccessory.h"
 
 @class LFXLight;
 
 
-@interface HKBLightAccessoryLIFX : HKBLightAccessory
+@interface HKBLightAccessoryLIFX : HKBLightBulbAccessory
 
 // Remove old init method
--(instancetype)initWithInformation:(NSDictionary*)information andCharacteristics:(HKBLightCharacteristics)characteristics NS_UNAVAILABLE;
+- (instancetype)initWithInformation:(HKBAccessoryInformation *)information characteristics:(HKBLightCharacteristics)characteristics NS_UNAVAILABLE;
 
 /**
  *  Creates an accessory lightbulb object to match a LIFX bulb
  *
  *  @param lightBulb The LIFX bulbs API object for that light.
  */
--(instancetype)initWithLightBulb:(LFXLight*)lightBulb;
-
-
-// We are our own delegate in for this class
--(void)setDelegate:(id<HKBLightDelegate>)delegate NS_UNAVAILABLE;
+- (instancetype)initWithLightBulb:(LFXLight *)lightBulb;
 
 @end

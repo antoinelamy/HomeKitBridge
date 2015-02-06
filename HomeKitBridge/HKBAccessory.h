@@ -7,14 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "HAKAccessoryKit.h"
-
-
-// Pointless except it prevents typos as then it just won't compile
-#define NameKey @"name"
-#define ModelKey @"model"
-#define SerialNumberKey @"serialNumber"
-#define ManufacturerKey @"manufacturer"
+#import "HKBAccessoryInformation.h"
 
 
 /**
@@ -24,14 +19,14 @@
  */
 @interface HKBAccessory : NSObject
 
--(instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Create a new accessory with the supplied device information. If a key is missing the default information for that key will be used. "serialNumber" is a required key and will not be subsituted.
  *
  *  @param information Keys: "name", "serialNumber", "manufacturer", "model"
  */
--(instancetype)initWithInformation:(NSDictionary*)information;
+- (instancetype)initWithInformation:(HKBAccessoryInformation *)information;
 
 
 /**
@@ -39,46 +34,32 @@
  */
 @property (nonatomic, readonly) HAKAccessory *accessory;
 
-
-
-
-// Infomation
-
 /**
- *  The accessory name.
+ *  Returns the accessory information.
  */
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) HKBAccessoryInformation *information;
 
 /**
  *  The passcode to connect to it
  */
 @property (nonatomic, readonly) NSString *passcode;
 
-@end
 
-
-
-
-
-
-
-@interface HKBAccessory (Subclasses)
 /**
  *  The default device information to be used if none is supplied. Keys: "name", "manufacturer", "model"
  */
-+(NSDictionary*)defaultInformation; // SUBCLASSES: Required to implement or it will fail to connect!
-
++ (HKBAccessoryInformation *)defaultInformation; // SUBCLASSES: Required to implement or it will fail to connect!
 
 /**
  *  Add services to the accessory here. NOTE: Must call super.
  */
--(void)setupServices;
+- (void)setupServices;
 
 /**
  *  Updates received are sent to this method.
  *
  *  @param characteristic The HAKCharacteristic that changed.
  */
--(void)characteristicDidUpdateValue:(HAKCharacteristic*)characteristic;
-@end
+- (void)characteristicDidUpdateValue:(HAKCharacteristic *)characteristic;
 
+@end

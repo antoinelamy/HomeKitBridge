@@ -9,44 +9,49 @@
 #import "HKBLightAccessoryLIFX.h"
 
 #import <LIFXKit/LIFXKit.h>
-#import "HKBLightAccessory+Subclass.h"
 
-@interface HKBLightAccessoryLIFX () <HKBLightDelegate, LFXLightObserver>
-@property (nonatomic, strong) LFXLight *lifxBulb;
+
+@interface HKBLightAccessoryLIFX () <LFXLightObserver>
+@property (nonatomic) LFXLight *lifxBulb;
 @end
 
 
-#pragma mark -
-
 @implementation HKBLightAccessoryLIFX
 
-+(NSDictionary*)defaultInformation{
-	return @{NameKey:@"Lightbulb", ModelKey:@"WiFi bulb white v1", ManufacturerKey:@"LIFX"};
-}
-
-
--(void)dealloc{
-	[self.lifxBulb removeLightObserver:self];
-}
-
-
-#pragma mark - Setup
-
--(instancetype)initWithLightBulb:(LFXLight*)lightBulb{
-	// Settings
+- (instancetype)initWithLightBulb:(LFXLight*)lightBulb
+{
 	HKBLightCharacteristics lightAbilities = (HKBLightCharacteristicBrightness | HKBLightCharacteristicHue | HKBLightCharacteristicSaturation);
-	NSDictionary *information = @{NameKey : lightBulb.label, SerialNumberKey : lightBulb.deviceID};
 	
-	// Create light
-	if (self = [super initWithInformation:information andCharacteristics:lightAbilities]) {
+	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
+	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:lightBulb.label
+																			manufacturer:defaultInformation.manufacturer
+																				   model:defaultInformation.model
+																			serialNumber:lightBulb.deviceID];
+	
+	if (self = [super initWithInformation:information characteristics:lightAbilities]) {
 		self.lifxBulb = lightBulb;
-		[self updateHKColorValues];
-
+		
+		// Initial values
+		[self light:self.lifxBulb didChangeColor:self.lifxBulb.color];
+		[self light:self.lifxBulb didChangePowerState:self.lifxBulb.powerState];
+		[self light:self.lifxBulb didChangeLabel:self.lifxBulb.label];
+		
 		[self.lifxBulb addLightObserver:self];
-		self.delegate = self;
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	[self.lifxBulb removeLightObserver:self];
+}
+
++ (HKBAccessoryInformation *)defaultInformation
+{
+	return [[HKBAccessoryInformation alloc] initWithName:@"Lightbulb"
+											manufacturer:@"LIFX"
+												   model:@"WiFi bulb white v1"];
 }
 
 
@@ -61,92 +66,62 @@
 //}
 
 
+#pragma mark - LFXLightObserver
 
+- (void)light:(LFXLight *)light didChangeLabel:(NSString *)label
+{
+	[self nameUpdated:label];
+}
 
-#pragma mark - Update HomeKit to LIFX values
+- (void)light:(LFXLight *)light didChangePowerState:(LFXPowerState)powerState
+{
+	[self powerStateUpdated:(self.lifxBulb.powerState == LFXPowerStateOn)];
+}
 
--(void)updateHKColorValues{
+- (void)light:(LFXLight *)light didChangeColor:(LFXHSBKColor *)color
+{
 	// - Conversion:	LIFX		HomeKit
 	// hue;			//	[0, 360] -  [0, 360]
 	// saturation;	//	[0, 1]	 -  [0, 100]
 	// brightness;	//	[0, 1]	 -  [0, 100]
 	
-	[self.lightBulbService.brightnessCharacteristic setIntegerValue:(self.lifxBulb.color.brightness * 100)];
-	[self.lightBulbService.saturationCharacteristic setFloatValue:(self.lifxBulb.color.saturation * 100)];
-	[self.lightBulbService.hueCharacteristic setFloatValue:(self.lifxBulb.color.hue)];
-}
--(void)updateHKPowerState{
-	[self.lightBulbService.onCharacteristic setBoolValue:(self.lifxBulb.powerState == LFXPowerStateOn)];
+	[self brightnessUpdated:(self.lifxBulb.color.brightness * 100)];
+	[self saturationUpdated:(self.lifxBulb.color.saturation * 100)];
+	[self hueUpdated:self.lifxBulb.color.hue];
 }
 
 
+#pragma mark - HKBLightBulbControlProtocol
 
-
-
-
-#pragma mark - LFXLightObserver
-
--(void)light:(LFXLight *)light didChangeLabel:(NSString *)label{
-	[self.lightBulbService.accessory.accessoryInformationService.nameCharacteristic setStringValue:light.label];
-}
--(void)light:(LFXLight *)light didChangeColor:(LFXHSBKColor *)color{
-	[self updateHKColorValues];
-}
--(void)light:(LFXLight *)light didChangePowerState:(LFXPowerState)powerState{
-	[self updateHKPowerState];
+- (void)setName:(NSString *)name
+{
+	[self.lifxBulb setLabel:name];
 }
 
-
-
-
-
-
-#pragma mark - HKBLightDelegate
-
--(void)setLight:(HKBLightAccessory *)light powerState:(BOOL)_powerState {
-	LFXPowerState powerState = _powerState ? LFXPowerStateOn : LFXPowerStateOff;
-	[self.lifxBulb setPowerState:powerState];
+- (void)setPowerState:(BOOL)powerState
+{
+	[self.lifxBulb setPowerState:powerState ? LFXPowerStateOn : LFXPowerStateOff];
 }
 
--(void)setLight:(HKBLightAccessory *)light hue:(NSInteger)hue {
-	LFXLight *lfxLight = [self lifxBulb];
-	
-	LFXHSBKColor *currentColor = [lfxLight color];
+- (void)setBrightness:(NSInteger)brightness
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:currentColor.saturation brightness:brightness * 0.01]; // Why 0.01??
+	[self.lifxBulb setColor:newColor];
+}
+
+- (void)setSaturation:(NSInteger)saturation
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:saturation * 0.01 brightness:currentColor.brightness];
+	[self.lifxBulb setColor:newColor];
+}
+
+- (void)setHue:(NSInteger)hue
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
 	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:hue saturation:currentColor.saturation brightness:currentColor.brightness];
-	
-	[lfxLight setColor:newColor];
-}
--(void)setLight:(HKBLightAccessory *)light brightness:(NSInteger)brightness {
-	CGFloat _brightness = brightness * 0.01;
-	
-	LFXLight *lfxLight = self.lifxBulb;
-	
-	LFXHSBKColor *currentColor = [lfxLight color];
-	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:currentColor.saturation brightness:_brightness];
-	
-	[lfxLight setColor:newColor];
-}
--(void)setLight:(HKBLightAccessory *)light saturation:(NSInteger)saturation {
-	CGFloat _saturation = saturation * 0.01;
-	
-	LFXLight *lfxLight = self.lifxBulb;
-	
-	LFXHSBKColor *currentColor = [lfxLight color];
-	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:_saturation brightness:currentColor.brightness];
-	
-	[lfxLight setColor:newColor];
-}
-
-
-
-
-
-
-
-#pragma mark - Properties
-
--(NSString*)deviceID{
-	return self.accessory.accessoryInformationService.serialNumberCharacteristic.serialNumber;
+	[self.lifxBulb setColor:newColor];
 }
 
 @end
