@@ -237,9 +237,9 @@
 				C7397D7519E978C100FF9EA3 /* AppDelegate.h */,
 				C7397D7619E978C100FF9EA3 /* AppDelegate.m */,
 				C7397E7919E9834800FF9EA3 /* HomeKit */,
-				C7397D7819E978C100FF9EA3 /* Images.xcassets */,
-				C7397D7A19E978C100FF9EA3 /* MainMenu.xib */,
+				EDA5997C1A84F90D00F7A2B9 /* Resources */,
 				C7397D7119E978C100FF9EA3 /* Supporting Files */,
+				C7397D9119E97CE100FF9EA3 /* Frameworks */,
 			);
 			path = HomeKitBridge;
 			sourceTree = "<group>";
@@ -247,7 +247,6 @@
 		C7397D7119E978C100FF9EA3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C7397D9119E97CE100FF9EA3 /* Frameworks */,
 				C7397D7219E978C100FF9EA3 /* Info.plist */,
 				C7397D7319E978C100FF9EA3 /* main.m */,
 			);
@@ -412,7 +411,7 @@
 				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
 				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
 				C78BEFE319EB681E0005278C /* LIFX */,
-				EDA5997B1A84F82800F7A2B9 /* HomeKit Helpers */,
+				EDA5997B1A84F82800F7A2B9 /* Helpers */,
 			);
 			name = HomeKit;
 			sourceTree = "<group>";
@@ -426,7 +425,7 @@
 			name = LIFX;
 			sourceTree = "<group>";
 		};
-		EDA5997B1A84F82800F7A2B9 /* HomeKit Helpers */ = {
+		EDA5997B1A84F82800F7A2B9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */,
@@ -434,7 +433,16 @@
 				EDAAEC141A8307230071F7A4 /* HKBTransportManagerBuilder.h */,
 				EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */,
 			);
-			name = "HomeKit Helpers";
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		EDA5997C1A84F90D00F7A2B9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C7397D7819E978C100FF9EA3 /* Images.xcassets */,
+				C7397D7A19E978C100FF9EA3 /* MainMenu.xib */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
