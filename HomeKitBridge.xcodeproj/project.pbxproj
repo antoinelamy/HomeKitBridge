@@ -18,10 +18,10 @@
 		C7397D8819E978C200FF9EA3 /* HomeKitBridgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397D8719E978C200FF9EA3 /* HomeKitBridgeTests.m */; };
 		C7397E7C19E9849E00FF9EA3 /* HKBAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */; };
 		C7397E8019E9859F00FF9EA3 /* HKBLightBulbAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */; };
-		C7397E8219E9F59D00FF9EA3 /* LIFXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; };
 		C7397E8519E9FC7300FF9EA3 /* LIFXKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C78BEFE619EB68660005278C /* HKBLightAccessoryLIFX.m in Sources */ = {isa = PBXBuildFile; fileRef = C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */; };
 		EDA599741A839A7200F7A2B9 /* HKBSwitchAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */; };
+		EDA5997D1A84F98D00F7A2B9 /* LIFXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; };
 		EDAAEC131A82FF4E0071F7A4 /* HKBAccessoryInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */; };
 		EDAAEC161A8307230071F7A4 /* HKBTransportManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */; };
 /* End PBXBuildFile section */
@@ -196,10 +196,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDA5997D1A84F98D00F7A2B9 /* LIFXKit.framework in Frameworks */,
 				C734C6A819EA104B00D3D2E3 /* Cocoa.framework in Frameworks */,
 				C734C6A919EA104B00D3D2E3 /* Foundation.framework in Frameworks */,
 				C734C6AB19EA10AC00D3D2E3 /* HAPAccessoryKit.framework in Frameworks */,
-				C7397E8219E9F59D00FF9EA3 /* LIFXKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +671,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/HomeKit\\ Accessory\\ Simulator.app/Contents/Frameworks",
 					"$(PROJECT_DIR)/HomeKitBridge",
+					"$(PROJECT_DIR)/HomeKitBridge/LIFX",
 				);
 				INFOPLIST_FILE = HomeKitBridge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -687,6 +688,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/HomeKit\\ Accessory\\ Simulator.app/Contents/Frameworks",
 					"$(PROJECT_DIR)/HomeKitBridge",
+					"$(PROJECT_DIR)/HomeKitBridge/LIFX",
 				);
 				INFOPLIST_FILE = HomeKitBridge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
