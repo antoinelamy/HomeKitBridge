@@ -31,7 +31,7 @@
 	self.switchService = [[HAKSwitchService alloc] init];
 	
 	HAKNameCharacteristic *serviceName = [HAKNameCharacteristic new];
-	serviceName.name = [[HKBSwitchAccessory class] defaultInformation].name;
+	serviceName.name = self.accessory.accessoryInformationService.nameCharacteristic.name;
 	[self.switchService setNameCharacteristic:serviceName];
 	
 	[self.accessory addService:self.switchService];
@@ -41,9 +41,16 @@
 {
 	[super characteristicDidUpdateValue:characteristic];
 	
-	if ([characteristic isKindOfClass:[HAKOnCharacteristic class]]) {
-		HAKOnCharacteristic *onCharacteristic = (HAKOnCharacteristic *)characteristic;
-		[self powerStateUpdated:onCharacteristic.boolValue];
+	if(characteristic.service == self.switchService) {
+		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
+			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
+			[self nameUpdated:nameCharacteristic.name];
+		}
+		
+		if ([characteristic isKindOfClass:[HAKOnCharacteristic class]]) {
+			HAKOnCharacteristic *onCharacteristic = (HAKOnCharacteristic *)characteristic;
+			[self powerStateUpdated:onCharacteristic.boolValue];
+		}
 	}
 }
 

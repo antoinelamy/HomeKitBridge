@@ -8,16 +8,14 @@
 
 #import "HKBAccessory.h"
 
-@protocol HKBSwitchControlProtocol <NSObject>
+@protocol HKBSwitchControlProtocol <HKBAccessoryControlProtocol>
 @required
-- (void)setName:(NSString *)name;
 - (void)setPowerState:(BOOL)powerState;
 @end
 
 
-@protocol HKBSwitchObserverProtocol <NSObject>
+@protocol HKBSwitchObserverProtocol <HKBAccessoryObserverProtocol>
 @required
-- (void)nameUpdated:(NSString *)name;
 - (void)powerStateUpdated:(BOOL)powerState;
 @end
 

@@ -12,12 +12,24 @@
 #import "HKBAccessoryInformation.h"
 
 
+@protocol HKBAccessoryControlProtocol <NSObject>
+@required
+- (void)setName:(NSString *)name;
+@end
+
+
+@protocol HKBAccessoryObserverProtocol <NSObject>
+@required
+- (void)nameUpdated:(NSString *)name;
+@end
+
+
 /**
  *  Base class for bridged accessories. Includes all the boilerplate setup code, allowing subclasses to focus on specific implementations.
  *
  *  Subclasses should override the methods in the (Subclasses) category definition.
  */
-@interface HKBAccessory : NSObject
+@interface HKBAccessory : NSObject <HKBAccessoryControlProtocol, HKBAccessoryObserverProtocol>
 
 - (instancetype)init NS_UNAVAILABLE;
 

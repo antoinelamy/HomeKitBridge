@@ -10,12 +10,11 @@
 #import "HKBTransportManagerBuilder.h"
 
 @interface HKBAccessory ()
-
 @property (nonatomic) HAKAccessory *accessory;
 @property (nonatomic) HKBAccessoryInformation *information;
 @property (nonatomic) HKBAccessoryInformation *setupInformation;
 @property (nonatomic) HAKTransportManager *transportManager;
-
+@property (nonatomic) HAKAccessoryInformationService *informationService;
 @end
 
 
@@ -28,10 +27,9 @@
 		self.accessory = [[HAKAccessory alloc] init];
 		self.setupInformation = information;
 		
-		[self setupServices]; // Subclass customisation point
+		[self setupServices];
 		[self activateAccessory];
 		
-		// TODO: Proper Characteristic notification monitoring
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(characteristicDidUpdateValueNotification:) name:@"HAKCharacteristicDidUpdateValueNotification" object:nil];
 	}
 	
@@ -52,13 +50,13 @@
 {
 	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
 
-	HAKAccessoryInformationService *infoService = [[HAKAccessoryInformationService alloc] init];
-	infoService.nameCharacteristic.name = self.setupInformation.name ?: defaultInformation.name;
-	infoService.manufacturerCharacteristic.manufacturer = self.setupInformation.manufacturer ?: defaultInformation.manufacturer;
-	infoService.modelCharacteristic.model = self.setupInformation.model ?: defaultInformation.model;
-	infoService.serialNumberCharacteristic.serialNumber = self.setupInformation.serialNumber;
+	self.informationService = [[HAKAccessoryInformationService alloc] init];
+	self.informationService.nameCharacteristic.name = self.setupInformation.name ?: defaultInformation.name;
+	self.informationService.manufacturerCharacteristic.manufacturer = self.setupInformation.manufacturer ?: defaultInformation.manufacturer;
+	self.informationService.modelCharacteristic.model = self.setupInformation.model ?: defaultInformation.model;
+	self.informationService.serialNumberCharacteristic.serialNumber = self.setupInformation.serialNumber;
 	
-	[self.accessory addService:infoService];
+	[self.accessory addService:self.informationService];
 }
 
 - (void)activateAccessory
@@ -81,13 +79,11 @@
 
 #pragma mark - Notifications
 
-- (void)characteristicDidUpdateValueNotification:(NSNotification *)aNote
+- (void)characteristicDidUpdateValueNotification:(NSNotification *)notification
 {
-	HAKCharacteristic *characteristic = aNote.object;
+	HAKCharacteristic *characteristic = notification.object;
 	
-	// If this notification is about us
 	if ([characteristic.service.accessory isEqual:self.accessory]) {
-		// Send the message off to the main thread, latency isn't an issue as this command has already made a network call.
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self characteristicDidUpdateValue:characteristic];
 		});
@@ -96,7 +92,12 @@
 
 - (void)characteristicDidUpdateValue:(HAKCharacteristic *)characteristic
 {
-	// Do nothing, implement in subclass
+	if(characteristic.service == self.informationService) {
+		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
+			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
+			[self nameUpdated:nameCharacteristic.name];
+		}
+	}
 }
 
 #pragma mark - Property Getters
@@ -114,6 +115,20 @@
 - (NSString *)passcode
 {
 	return self.transport.password;
+}
+
+#pragma mark - HKBAccessoryObserverProtocol
+
+- (void)nameUpdated:(NSString *)name
+{
+	[self.informationService.nameCharacteristic setStringValue:name];
+}
+
+#pragma mark - HKBAccessoryControlProtocol
+
+- (void)setName:(NSString *)name
+{
+	// Do nothing, implement in subclass
 }
 
 @end

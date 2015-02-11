@@ -14,7 +14,8 @@
 @interface HKBLightAccessoryLIFX : HKBLightBulbAccessory
 
 // Remove old init method
-- (instancetype)initWithInformation:(HKBAccessoryInformation *)information characteristics:(HKBLightCharacteristics)characteristics NS_UNAVAILABLE;
+- (instancetype)initWithInformation:(HKBAccessoryInformation *)information
+					characteristics:(HKBLightCharacteristics)characteristics NS_UNAVAILABLE;
 
 /**
  *  Creates an accessory lightbulb object to match a LIFX bulb
