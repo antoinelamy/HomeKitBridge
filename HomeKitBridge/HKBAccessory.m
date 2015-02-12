@@ -12,7 +12,6 @@
 @interface HKBAccessory ()
 @property (nonatomic) HAKAccessory *accessory;
 @property (nonatomic) HKBAccessoryInformation *information;
-@property (nonatomic) HKBAccessoryInformation *setupInformation;
 @property (nonatomic) HAKTransportManager *transportManager;
 @property (nonatomic) HAKAccessoryInformationService *informationService;
 @end
@@ -25,10 +24,7 @@
 	self = [super init];
 	if (self) {
 		self.accessory = [[HAKAccessory alloc] init];
-		self.setupInformation = information;
-		
-		[self setupServices];
-		[self activateAccessory];
+		self.information = information;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(characteristicDidUpdateValueNotification:) name:@"HAKCharacteristicDidUpdateValueNotification" object:nil];
 	}
@@ -51,12 +47,14 @@
 	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
 
 	self.informationService = [[HAKAccessoryInformationService alloc] init];
-	self.informationService.nameCharacteristic.name = self.setupInformation.name ?: defaultInformation.name;
-	self.informationService.manufacturerCharacteristic.manufacturer = self.setupInformation.manufacturer ?: defaultInformation.manufacturer;
-	self.informationService.modelCharacteristic.model = self.setupInformation.model ?: defaultInformation.model;
-	self.informationService.serialNumberCharacteristic.serialNumber = self.setupInformation.serialNumber;
+	self.informationService.nameCharacteristic.name = self.information.name ?: defaultInformation.name;
+	self.informationService.manufacturerCharacteristic.manufacturer = self.information.manufacturer ?: defaultInformation.manufacturer;
+	self.informationService.modelCharacteristic.model = self.information.model ?: defaultInformation.model;
+	self.informationService.serialNumberCharacteristic.serialNumber = self.information.serialNumber;
 	
 	[self.accessory addService:self.informationService];
+	
+	[self activateAccessory];
 }
 
 - (void)activateAccessory
@@ -95,7 +93,7 @@
 	if(characteristic.service == self.informationService) {
 		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
 			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
-			[self nameUpdated:nameCharacteristic.name];
+			[self setName:nameCharacteristic.name];
 		}
 	}
 }

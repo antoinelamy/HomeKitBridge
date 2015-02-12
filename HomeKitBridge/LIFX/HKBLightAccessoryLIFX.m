@@ -23,7 +23,7 @@
 	HKBLightCharacteristics lightAbilities = (HKBLightCharacteristicBrightness | HKBLightCharacteristicHue | HKBLightCharacteristicSaturation);
 	
 	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
-	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:lightBulb.label
+	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:[lightBulb.label length] > 0 ? lightBulb.label : nil
 																			manufacturer:defaultInformation.manufacturer
 																				   model:defaultInformation.model
 																			serialNumber:lightBulb.deviceID];

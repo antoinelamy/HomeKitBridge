@@ -77,12 +77,12 @@
 	if(characteristic.service == self.lightBulbService) {
 		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
 			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
-			[self nameUpdated:nameCharacteristic.name];
+			[self setName:nameCharacteristic.name];
 		}
 		
 		if ([characteristic isKindOfClass:[HAKOnCharacteristic class]]) {
 			HAKOnCharacteristic *onCharacteristic = (HAKOnCharacteristic *)characteristic;
-			[self powerStateUpdated:onCharacteristic.boolValue];
+			[self setPowerState:onCharacteristic.boolValue];
 		}
 		
 		if ([characteristic isKindOfClass:[HAKBrightnessCharacteristic class]]) {

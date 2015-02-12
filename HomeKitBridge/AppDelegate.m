@@ -63,7 +63,7 @@
 
 - (NSMenuItem *)createMenuItemForAccessory:(HKBAccessory *)accessory
 {
-	NSString *title = [NSString stringWithFormat:@"%@ - PIN: %@", accessory.information.name ?: @"", accessory.passcode];
+	NSString *title = [NSString stringWithFormat:@"%@ - PIN: %@", accessory.information.name ?: @"Light", accessory.passcode];
 	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:title];
 	return menuItem;
 }
@@ -115,6 +115,7 @@
 	
 	// Create light
 	HKBLightAccessoryLIFX *light = [[HKBLightAccessoryLIFX alloc] initWithLightBulb:lifxLight];
+	[light setupServices];
 	
 	// Add it
 	self.lights[lifxLight.deviceID] = light;
