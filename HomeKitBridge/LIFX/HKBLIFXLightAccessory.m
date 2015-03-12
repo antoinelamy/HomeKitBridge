@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Kyle Howells. All rights reserved.
 //
 
-#import "HKBLightAccessoryLIFX.h"
+#import "HKBLIFXLightAccessory.h"
 
 #import <LIFXKit/LIFXKit.h>
 
 
-@interface HKBLightAccessoryLIFX () <LFXLightObserver>
+@interface HKBLIFXLightAccessory () <LFXLightObserver>
 @property (nonatomic) LFXLight *lifxBulb;
 @end
 
 
-@implementation HKBLightAccessoryLIFX
+@implementation HKBLIFXLightAccessory
 
 - (instancetype)initWithLightBulb:(LFXLight*)lightBulb
 {

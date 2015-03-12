@@ -19,7 +19,10 @@
 		C7397E7C19E9849E00FF9EA3 /* HKBAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */; };
 		C7397E8019E9859F00FF9EA3 /* HKBLightBulbAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */; };
 		C7397E8519E9FC7300FF9EA3 /* LIFXKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C78BEFE619EB68660005278C /* HKBLightAccessoryLIFX.m in Sources */ = {isa = PBXBuildFile; fileRef = C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */; };
+		C78BEFE619EB68660005278C /* HKBLIFXLightAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = C78BEFE519EB68660005278C /* HKBLIFXLightAccessory.m */; };
+		ED6E2A431AB1B2C40078869C /* HKBDiscoveryService.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6E2A421AB1B2C40078869C /* HKBDiscoveryService.m */; };
+		ED6E2A491AB1B4F00078869C /* HKBLIFXDiscoveryService.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6E2A481AB1B4F00078869C /* HKBLIFXDiscoveryService.m */; };
+		ED6E2A501AB244820078869C /* HKBSupportedAccessories.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6E2A4F1AB244820078869C /* HKBSupportedAccessories.m */; };
 		EDA599741A839A7200F7A2B9 /* HKBSwitchAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */; };
 		EDA5997D1A84F98D00F7A2B9 /* LIFXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */; };
 		EDAAEC131A82FF4E0071F7A4 /* HKBAccessoryInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */; };
@@ -181,8 +184,14 @@
 		C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBLightBulbAccessory.h; sourceTree = "<group>"; };
 		C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBLightBulbAccessory.m; sourceTree = "<group>"; };
 		C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LIFXKit.framework; path = LIFX/LIFXKit.framework; sourceTree = "<group>"; };
-		C78BEFE419EB68660005278C /* HKBLightAccessoryLIFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBLightAccessoryLIFX.h; path = LIFX/HKBLightAccessoryLIFX.h; sourceTree = "<group>"; };
-		C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBLightAccessoryLIFX.m; path = LIFX/HKBLightAccessoryLIFX.m; sourceTree = "<group>"; };
+		C78BEFE419EB68660005278C /* HKBLIFXLightAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBLIFXLightAccessory.h; path = LIFX/HKBLIFXLightAccessory.h; sourceTree = "<group>"; };
+		C78BEFE519EB68660005278C /* HKBLIFXLightAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBLIFXLightAccessory.m; path = LIFX/HKBLIFXLightAccessory.m; sourceTree = "<group>"; };
+		ED6E2A411AB1B2C40078869C /* HKBDiscoveryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBDiscoveryService.h; sourceTree = "<group>"; };
+		ED6E2A421AB1B2C40078869C /* HKBDiscoveryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBDiscoveryService.m; sourceTree = "<group>"; };
+		ED6E2A471AB1B4F00078869C /* HKBLIFXDiscoveryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBLIFXDiscoveryService.h; path = LIFX/HKBLIFXDiscoveryService.h; sourceTree = "<group>"; };
+		ED6E2A481AB1B4F00078869C /* HKBLIFXDiscoveryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBLIFXDiscoveryService.m; path = LIFX/HKBLIFXDiscoveryService.m; sourceTree = "<group>"; };
+		ED6E2A4E1AB244820078869C /* HKBSupportedAccessories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBSupportedAccessories.h; sourceTree = "<group>"; };
+		ED6E2A4F1AB244820078869C /* HKBSupportedAccessories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBSupportedAccessories.m; sourceTree = "<group>"; };
 		EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBSwitchAccessory.h; sourceTree = "<group>"; };
 		EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKBSwitchAccessory.m; sourceTree = "<group>"; };
 		EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBAccessoryInformation.h; sourceTree = "<group>"; };
@@ -237,6 +246,7 @@
 				C7397D7519E978C100FF9EA3 /* AppDelegate.h */,
 				C7397D7619E978C100FF9EA3 /* AppDelegate.m */,
 				C7397E7919E9834800FF9EA3 /* HomeKit */,
+				ED6E2A4C1AB1BEF20078869C /* Supported Accessories */,
 				EDA5997C1A84F90D00F7A2B9 /* Resources */,
 				C7397D7119E978C100FF9EA3 /* Supporting Files */,
 				C7397D9119E97CE100FF9EA3 /* Frameworks */,
@@ -404,14 +414,9 @@
 		C7397E7919E9834800FF9EA3 /* HomeKit */ = {
 			isa = PBXGroup;
 			children = (
-				C7397E7A19E9849E00FF9EA3 /* HKBAccessory.h */,
-				C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */,
-				EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */,
-				EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */,
-				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
-				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
-				C78BEFE319EB681E0005278C /* LIFX */,
-				EDA5997B1A84F82800F7A2B9 /* Helpers */,
+				ED6E2A4A1AB1BE930078869C /* Accessories */,
+				ED6E2A4B1AB1BEA00078869C /* Discovery */,
+				EDA5997B1A84F82800F7A2B9 /* Transport */,
 			);
 			name = HomeKit;
 			sourceTree = "<group>";
@@ -419,21 +424,55 @@
 		C78BEFE319EB681E0005278C /* LIFX */ = {
 			isa = PBXGroup;
 			children = (
-				C78BEFE419EB68660005278C /* HKBLightAccessoryLIFX.h */,
-				C78BEFE519EB68660005278C /* HKBLightAccessoryLIFX.m */,
+				C78BEFE419EB68660005278C /* HKBLIFXLightAccessory.h */,
+				C78BEFE519EB68660005278C /* HKBLIFXLightAccessory.m */,
+				ED6E2A471AB1B4F00078869C /* HKBLIFXDiscoveryService.h */,
+				ED6E2A481AB1B4F00078869C /* HKBLIFXDiscoveryService.m */,
 			);
 			name = LIFX;
 			sourceTree = "<group>";
 		};
-		EDA5997B1A84F82800F7A2B9 /* Helpers */ = {
+		ED6E2A4A1AB1BE930078869C /* Accessories */ = {
 			isa = PBXGroup;
 			children = (
+				C7397E7A19E9849E00FF9EA3 /* HKBAccessory.h */,
+				C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */,
 				EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */,
 				EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */,
+				EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */,
+				EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */,
+				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
+				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
+			);
+			name = Accessories;
+			sourceTree = "<group>";
+		};
+		ED6E2A4B1AB1BEA00078869C /* Discovery */ = {
+			isa = PBXGroup;
+			children = (
+				ED6E2A411AB1B2C40078869C /* HKBDiscoveryService.h */,
+				ED6E2A421AB1B2C40078869C /* HKBDiscoveryService.m */,
+			);
+			name = Discovery;
+			sourceTree = "<group>";
+		};
+		ED6E2A4C1AB1BEF20078869C /* Supported Accessories */ = {
+			isa = PBXGroup;
+			children = (
+				ED6E2A4E1AB244820078869C /* HKBSupportedAccessories.h */,
+				ED6E2A4F1AB244820078869C /* HKBSupportedAccessories.m */,
+				C78BEFE319EB681E0005278C /* LIFX */,
+			);
+			name = "Supported Accessories";
+			sourceTree = "<group>";
+		};
+		EDA5997B1A84F82800F7A2B9 /* Transport */ = {
+			isa = PBXGroup;
+			children = (
 				EDAAEC141A8307230071F7A4 /* HKBTransportManagerBuilder.h */,
 				EDAAEC151A8307230071F7A4 /* HKBTransportManagerBuilder.m */,
 			);
-			name = Helpers;
+			name = Transport;
 			sourceTree = "<group>";
 		};
 		EDA5997C1A84F90D00F7A2B9 /* Resources */ = {
@@ -547,9 +586,12 @@
 			files = (
 				C7397D7719E978C100FF9EA3 /* AppDelegate.m in Sources */,
 				C7397E8019E9859F00FF9EA3 /* HKBLightBulbAccessory.m in Sources */,
-				C78BEFE619EB68660005278C /* HKBLightAccessoryLIFX.m in Sources */,
+				C78BEFE619EB68660005278C /* HKBLIFXLightAccessory.m in Sources */,
+				ED6E2A491AB1B4F00078869C /* HKBLIFXDiscoveryService.m in Sources */,
+				ED6E2A431AB1B2C40078869C /* HKBDiscoveryService.m in Sources */,
 				C7397E7C19E9849E00FF9EA3 /* HKBAccessory.m in Sources */,
 				EDA599741A839A7200F7A2B9 /* HKBSwitchAccessory.m in Sources */,
+				ED6E2A501AB244820078869C /* HKBSupportedAccessories.m in Sources */,
 				C7397D7419E978C100FF9EA3 /* main.m in Sources */,
 				EDAAEC131A82FF4E0071F7A4 /* HKBAccessoryInformation.m in Sources */,
 				EDAAEC161A8307230071F7A4 /* HKBTransportManagerBuilder.m in Sources */,

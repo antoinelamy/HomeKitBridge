@@ -11,7 +11,7 @@
 @class LFXLight;
 
 
-@interface HKBLightAccessoryLIFX : HKBLightBulbAccessory
+@interface HKBLIFXLightAccessory : HKBLightBulbAccessory
 
 // Remove old init method
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information

@@ -6,72 +6,74 @@
 //  Copyright (c) 2014 Kyle Howells. All rights reserved.
 //
 
-#import <LIFXKit/LIFXKit.h>
-#import "HKBLightAccessoryLIFX.h"
-
 #import "AppDelegate.h"
+#import "HKBSupportedAccessories.h"
 
-@interface AppDelegate (LIFX) <LFXLightCollectionObserver>
--(void)setupLIFXMonitoring;
-@end
-
-@interface AppDelegate ()
+@interface AppDelegate () <HKBDiscoveryServiceDelegate>
 
 @property (weak) IBOutlet NSWindow *window; // Window left in case I want to add UI at any point
 
-// Menu bar item
 @property (nonatomic) NSStatusItem *statusItem;
 @property (nonatomic) NSMenu *lightsMenu;
 
-// Lights dictionary. { serialNumber : lightAccessoryObject }
-@property (nonatomic) NSMutableDictionary *lights;
-
+@property (nonatomic) NSArray *discoveryServices;
+@property (nonatomic) NSMutableArray *accessories;
 
 - (NSMenuItem *)createMenuItemForAccessory:(HKBAccessory *)_accessory;
 - (NSMenuItem *)menuItemForAccessory:(HKBAccessory *)_accessory;
-@end
 
+@end
 
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	// Create variables
-	self.lights = [NSMutableDictionary dictionary];
-	
-	// Create status bar item
+	[self setupMenu];
+	[self setupDiscoveryServices];
+	[self startDiscovery];
+}
+
+- (void)setupMenu
+{
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-	[self.statusItem setTitle:@"HKB"]; // HKB = HomeKit Bridge
-	[self.statusItem setHighlightMode:YES];
+	self.statusItem.title = @"HKB"; // HKB = HomeKit Bridge
+	self.statusItem.highlightMode = YES;
 	self.statusItem.menu = [[NSMenu alloc] init];
 	
-	
-	// Create a submenu where we'll put the lights
 	NSMenuItem *lightsMenuItem = [[NSMenuItem alloc] init];
-	[lightsMenuItem setTitle:@"Lights"];
+	lightsMenuItem.title = @"Lights";
 	
-	self.lightsMenu = [[NSMenu alloc] initWithTitle:@"Lights"];
-	[lightsMenuItem setSubmenu:self.lightsMenu];
+	self.lightsMenu = [[NSMenu alloc] init];
+	lightsMenuItem.submenu = self.lightsMenu;
 	
 	[self.statusItem.menu addItem:lightsMenuItem];
-	
-	
-	// LIFX specific stuff in here
-	[self setupLIFXMonitoring];
+}
+
+- (void)setupDiscoveryServices
+{
+	NSMutableArray *discoveryServices = [NSMutableArray array];
+	for(Class discoveryServiceClass in [HKBSupportedAccessories supportedDiscoveryServices]) {
+		HKBDiscoveryService *discoveryService = [[discoveryServiceClass alloc] init];
+		discoveryService.delegate = self;
+		[discoveryServices addObject:discoveryService];
+	}
+	self.accessories = [NSMutableArray array];
+	self.discoveryServices = [NSArray arrayWithArray:discoveryServices];
 }
 
 - (NSMenuItem *)createMenuItemForAccessory:(HKBAccessory *)accessory
 {
 	NSString *title = [NSString stringWithFormat:@"%@ - PIN: %@", accessory.information.name ?: @"Light", accessory.passcode];
 	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:title];
+	menuItem.representedObject = accessory;
+	
 	return menuItem;
 }
 
 - (NSMenuItem *)menuItemForAccessory:(HKBAccessory *)accessory
 {
 	NSMenuItem *item = nil;
-	
 	for (NSMenuItem *menuItem in self.lightsMenu.itemArray) {
 		HKBAccessory *menuAccessory = [menuItem representedObject];
 		if (menuAccessory == accessory) {
@@ -83,61 +85,38 @@
 	return item;
 }
 
-@end
-
-
-
-
-@implementation AppDelegate (LIFX)
-
-- (void)setupLIFXMonitoring
+- (void)startDiscovery
 {
-	// Everything above this point in the code is generalisable, for this point it is an example using the LIFX SDK.
-	[[[LFXClient sharedClient] localNetworkContext].allLightsCollection addLightCollectionObserver:self];
+	for(HKBDiscoveryService *discoveryService in self.discoveryServices) {
+		[discoveryService startDiscovery];
+	}
 }
 
-
-#pragma mark LFXLightCollectionObserver
-
-- (void)lightCollection:(LFXLightCollection *)lightCollection didAddLight:(LFXLight *)light
+- (void)stopDiscovery
 {
-	[self addLight:light];
+	for(HKBDiscoveryService *discoveryService in self.discoveryServices) {
+		[discoveryService stopDiscovery];
+	}
 }
 
-- (void)lightCollection:(LFXLightCollection *)lightCollection didRemoveLight:(LFXLight *)light
+#pragma mark - HKBDiscoveryServiceDelegate
+
+- (void)discoveryService:(HKBDiscoveryService *)service didDiscoverAccessory:(HKBAccessory *)accessory
 {
-	[self removeLight:light];
+	if(![self.accessories containsObject:accessory]) {
+		[accessory setupServices];
+		
+		[self.accessories addObject:accessory];
+		[self.lightsMenu addItem:[self menuItemForAccessory:accessory]];
+	}
 }
 
-- (void)addLight:(LFXLight *)lifxLight
+- (void)discoveryService:(HKBDiscoveryService *)service didLostAccessory:(HKBAccessory *)accessory
 {
-	if (self.lights[lifxLight.deviceID] != nil) { return; }
-	
-	// Create light
-	HKBLightAccessoryLIFX *light = [[HKBLightAccessoryLIFX alloc] initWithLightBulb:lifxLight];
-	[light setupServices];
-	
-	// Add it
-	self.lights[lifxLight.deviceID] = light;
-	
-	// Create menu item
-	NSMenuItem *menuItem = [self createMenuItemForAccessory:light];
-	[menuItem setRepresentedObject:light];
-	[self.lightsMenu addItem:menuItem];
-}
-
-- (void)removeLight:(LFXLight *)lifxLight
-{
-	if (self.lights[lifxLight.deviceID] == nil) { return; }
-	
-	// Remove menu item
-	NSMenuItem *menuItem = [self menuItemForAccessory:self.lights[lifxLight.deviceID]];
-	[self.lightsMenu removeItem:menuItem];
-	
-	// Get rid of it
-	[self.lights removeObjectForKey:lifxLight.deviceID];
+	if([self.accessories containsObject:accessory]) {
+		[self.accessories removeObject:accessory];
+		[self.lightsMenu removeItem:[self menuItemForAccessory:accessory]];
+	}
 }
 
 @end
-
-
