@@ -107,7 +107,7 @@
 		[accessory setupServices];
 		
 		[self.accessories addObject:accessory];
-		[self.lightsMenu addItem:[self menuItemForAccessory:accessory]];
+		[self.lightsMenu addItem:[self createMenuItemForAccessory:accessory]];
 	}
 }
 
