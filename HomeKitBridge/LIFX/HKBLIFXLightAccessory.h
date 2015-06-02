@@ -12,7 +12,7 @@
 
 
 @protocol HKBLIFXLightBulbControlProtocol <HKBLightBulbControlProtocol>
-- (void)setKelvin:(uint16_t)kelvin; // 0-360
+- (void)setKelvin:(uint16_t)kelvin; // 2500-9000
 @end
 
 
@@ -21,7 +21,7 @@
 @end
 
 
-@interface HKBLIFXLightAccessory : HKBLightBulbAccessory
+@interface HKBLIFXLightAccessory : HKBLightBulbAccessory <HKBLightBulbControlProtocol, HKBLightBulbObserverProtocol>
 
 + (HAKUUID *)kelvinCharacteristicType
 

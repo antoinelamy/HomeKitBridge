@@ -310,6 +310,24 @@
 			name = LIFX;
 			sourceTree = "<group>";
 		};
+		E632ADE41B1DD6D4007E0086 /* Switch */ = {
+			isa = PBXGroup;
+			children = (
+				EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */,
+				EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */,
+			);
+			name = Switch;
+			sourceTree = "<group>";
+		};
+		E632ADE51B1DD6DC007E0086 /* Light bulb */ = {
+			isa = PBXGroup;
+			children = (
+				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
+				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
+			);
+			name = "Light bulb";
+			sourceTree = "<group>";
+		};
 		ED6E2A4A1AB1BE930078869C /* Accessories */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,10 +335,8 @@
 				C7397E7B19E9849E00FF9EA3 /* HKBAccessory.m */,
 				EDAAEC111A82FF4E0071F7A4 /* HKBAccessoryInformation.h */,
 				EDAAEC121A82FF4E0071F7A4 /* HKBAccessoryInformation.m */,
-				EDA599721A839A7200F7A2B9 /* HKBSwitchAccessory.h */,
-				EDA599731A839A7200F7A2B9 /* HKBSwitchAccessory.m */,
-				C7397E7E19E9859F00FF9EA3 /* HKBLightBulbAccessory.h */,
-				C7397E7F19E9859F00FF9EA3 /* HKBLightBulbAccessory.m */,
+				E632ADE41B1DD6D4007E0086 /* Switch */,
+				E632ADE51B1DD6DC007E0086 /* Light bulb */,
 			);
 			name = Accessories;
 			sourceTree = "<group>";

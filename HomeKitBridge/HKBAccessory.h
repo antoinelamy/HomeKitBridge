@@ -32,12 +32,6 @@
 @interface HKBAccessory : NSObject <HKBAccessoryControlProtocol, HKBAccessoryObserverProtocol>
 
 - (instancetype)init NS_UNAVAILABLE;
-
-/**
- *  Create a new accessory with the supplied device information. If a key is missing the default information for that key will be used. "serialNumber" is a required key and will not be subsituted.
- *
- *  @param information Keys: "name", "serialNumber", "manufacturer", "model"
- */
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information;
 
 

@@ -18,7 +18,7 @@
 
 @implementation HKBLIFXLightAccessory
 
-- (instancetype)initWithLightBulb:(LFXLight*)lightBulb
+- (instancetype)initWithLightBulb:(LFXLight *)lightBulb
 {
 	HKBLightCapabilities lightCapabilities = (HKBLightCapabilityBrightness | HKBLightCapabilityHue | HKBLightCapabilitySaturation);
 	
@@ -50,7 +50,7 @@
 
 + (HAKUUID *)kelvinCharacteristicType
 {
-	return [HAKUUID UUIDWithUUIDString:@"97685b44-6202-47f9-80fb-de70ca0cfbaf"];
+	return [HAKUUID UUIDWithUUIDString:@"0836D660-26E5-4D17-A714-A15DB6EAC9A5"];
 }
 
 -(void)setupServices
