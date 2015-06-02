@@ -22,7 +22,8 @@
 {
 	HKBLightCapabilities lightCapabilities = (HKBLightCapabilityBrightness | HKBLightCapabilityHue | HKBLightCapabilitySaturation);
 	
-	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:[lightBulb.label length] > 0 ? lightBulb.label : @"LIFX multi-color LED bulb"
+	NSString *lightBulbName = [lightBulb.label length] > 0 ? lightBulb.label : @"LIFX multi-color LED bulb";
+	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:lightBulbName
 																			manufacturer:@"LIFX"
 																				   model:@"17W Wi-Fi LED smart bulb"
 																			serialNumber:lightBulb.deviceID];
@@ -47,16 +48,98 @@
 	[self.lifxBulb removeLightObserver:self];
 }
 
++ (HAKUUID *)kelvinCharacteristicType
+{
+	return [HAKUUID UUIDWithUUIDString:@"97685b44-6202-47f9-80fb-de70ca0cfbaf"];
+}
 
-// TODO: work out how to define custom characteristics and add the kelvin value of LIFX bulbs
-//-(void)setupServices{
-//	[super setupServices];
-//	
-//	HAKIntegerCharacteristic *kelvin = [[HAKIntegerCharacteristic alloc] init];
-//	kelvin.minimumValue = [NSNumber numberWithInt:LFXHSBKColorMinKelvin];
-//	kelvin.maximumValue = [NSNumber numberWithInt:LFXHSBKColorMaxKelvin];
-//	[self.lightBulbService addCharacteristic:kelvin];
-//}
+-(void)setupServices
+{
+	[super setupServices];
+	
+	HAKCharacteristic *kelvinCharacteristic = [[HAKCharacteristic alloc] initWithType:[[self class] kelvinCharacteristicType]];
+	HAKNumberConstraints *kelvinNumberConstraints = [[HAKNumberConstraints alloc] initWithMinimumValue:@(LFXHSBKColorMinKelvin) maximumValue:@(LFXHSBKColorMaxKelvin)];
+	kelvinCharacteristic.constraints = kelvinNumberConstraints;
+	[self.lightBulbService addCharacteristic:kelvinCharacteristic];
+}
+
+- (void)characteristicDidUpdateValue:(HAKCharacteristic *)characteristic
+{
+	[super characteristicDidUpdateValue:characteristic];
+	
+	if(characteristic.service == self.lightBulbService) {
+		if([characteristic.type isEqual:[HKBLIFXLightAccessory kelvinCharacteristicType]]) {
+			if ([self respondsToSelector:@selector(setKelvin:)]) {
+				[self setKelvin:[characteristic.value unsignedIntValue]];
+			}
+		}
+	}
+}
+
+
+#pragma mark - Observer protocols
+
+#pragma mark HKBLIFXLightBulbObserverProtocol
+
+- (void)kelvinUpdated:(NSUInteger)kelvin
+{
+	HAKCharacteristic *kelvinCharacteristic = [self.lightBulbService characteristicWithType:[HKBLIFXLightAccessory kelvinCharacteristicType]];
+	
+	if([kelvinCharacteristic.constraints validateValue:@(kelvin)]) {
+		kelvinCharacteristic.value = @(kelvin);
+	}
+	else {
+		NSLog(@"Invalid value for characteristic %@", kelvinCharacteristic);
+	}
+}
+
+#pragma mark - Control protocols
+
+#pragma mark HKBAccessoryControlProtocol
+
+- (void)setName:(NSString *)name
+{
+	[self.lifxBulb setLabel:name];
+}
+
+#pragma mark HKBSwitchControlProtocol
+
+- (void)setPowerState:(BOOL)powerState
+{
+	[self.lifxBulb setPowerState:powerState ? LFXPowerStateOn : LFXPowerStateOff];
+}
+
+#pragma mark HKBLightBulbControlProtocol
+
+- (void)setBrightness:(NSInteger)brightness
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:currentColor.saturation brightness:brightness * 0.01]; // Why 0.01??
+	[self.lifxBulb setColor:newColor];
+}
+
+- (void)setSaturation:(NSInteger)saturation
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:saturation * 0.01 brightness:currentColor.brightness];
+	[self.lifxBulb setColor:newColor];
+}
+
+- (void)setHue:(NSInteger)hue
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:hue saturation:currentColor.saturation brightness:currentColor.brightness];
+	[self.lifxBulb setColor:newColor];
+}
+
+#pragma mark HKBLIFXLightBulbControlProtocol
+
+- (void)setKelvin:(uint16_t)kelvin
+{
+	LFXHSBKColor *currentColor = [self.lifxBulb color];
+	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:currentColor.saturation brightness:currentColor.brightness kelvin:kelvin];
+	[self.lifxBulb setColor:newColor];
+}
 
 
 #pragma mark - LFXLightObserver
@@ -81,40 +164,7 @@
 	[self brightnessUpdated:(self.lifxBulb.color.brightness * 100)];
 	[self saturationUpdated:(self.lifxBulb.color.saturation * 100)];
 	[self hueUpdated:self.lifxBulb.color.hue];
-}
-
-
-#pragma mark - HKBLightBulbControlProtocol
-
-- (void)setName:(NSString *)name
-{
-	[self.lifxBulb setLabel:name];
-}
-
-- (void)setPowerState:(BOOL)powerState
-{
-	[self.lifxBulb setPowerState:powerState ? LFXPowerStateOn : LFXPowerStateOff];
-}
-
-- (void)setBrightness:(NSInteger)brightness
-{
-	LFXHSBKColor *currentColor = [self.lifxBulb color];
-	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:currentColor.saturation brightness:brightness * 0.01]; // Why 0.01??
-	[self.lifxBulb setColor:newColor];
-}
-
-- (void)setSaturation:(NSInteger)saturation
-{
-	LFXHSBKColor *currentColor = [self.lifxBulb color];
-	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:currentColor.hue saturation:saturation * 0.01 brightness:currentColor.brightness];
-	[self.lifxBulb setColor:newColor];
-}
-
-- (void)setHue:(NSInteger)hue
-{
-	LFXHSBKColor *currentColor = [self.lifxBulb color];
-	LFXHSBKColor *newColor = [LFXHSBKColor colorWithHue:hue saturation:currentColor.saturation brightness:currentColor.brightness];
-	[self.lifxBulb setColor:newColor];
+	[self kelvinUpdated:self.lifxBulb.color.kelvin];
 }
 
 @end

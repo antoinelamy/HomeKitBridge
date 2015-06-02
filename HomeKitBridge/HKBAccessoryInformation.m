@@ -8,14 +8,6 @@
 
 #import "HKBAccessoryInformation.h"
 
-@interface HKBAccessoryInformation ()
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSString *manufacturer;
-@property (nonatomic) NSString *model;
-@property (nonatomic) NSString *serialNumber;
-@end
-
-
 @implementation HKBAccessoryInformation
 
 - (instancetype)initWithName:(NSString *)name
@@ -25,10 +17,10 @@
 {
 	self = [super init];
 	if(self) {
-		self.name = name;
-		self.model = model;
-		self.manufacturer = manufacturer;
-		self.serialNumber = serialNumber;
+		_name = name;
+		_model = model;
+		_manufacturer = manufacturer;
+		_serialNumber = serialNumber;
 	}
 	return self;
 }

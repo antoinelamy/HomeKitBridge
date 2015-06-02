@@ -9,13 +9,11 @@
 #import "HKBAccessory.h"
 
 @protocol HKBSwitchControlProtocol <HKBAccessoryControlProtocol>
-@required
 - (void)setPowerState:(BOOL)powerState;
 @end
 
 
 @protocol HKBSwitchObserverProtocol <HKBAccessoryObserverProtocol>
-@required
 - (void)powerStateUpdated:(BOOL)powerState;
 @end
 

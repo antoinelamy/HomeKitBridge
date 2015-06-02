@@ -6,7 +6,12 @@
 
 #import <objc/NSObject.h>
 
-@class HAKService, HAKUUID, HAKValueConstraints, NSArray, NSHashTable, NSNumber, NSString;
+#import "HAKValueConstraints.h"
+#import "HAKNumberConstraints.h"
+#import "HAKStringConstraints.h"
+#import "HAKUUID.h"
+
+@class HAKService, NSArray, NSHashTable, NSNumber, NSString;
 
 typedef NS_ENUM(NSUInteger, HAKCharacteristicFormat) {
 	HAKCharacteristicFormatNone,

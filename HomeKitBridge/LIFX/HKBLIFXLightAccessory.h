@@ -11,17 +11,23 @@
 @class LFXLight;
 
 
+@protocol HKBLIFXLightBulbControlProtocol <HKBLightBulbControlProtocol>
+- (void)setKelvin:(uint16_t)kelvin; // 0-360
+@end
+
+
+@protocol HKBLIFXLightBulbObserverProtocol <HKBLightBulbObserverProtocol>
+- (void)kelvinUpdated:(NSUInteger)kelvin
+@end
+
+
 @interface HKBLIFXLightAccessory : HKBLightBulbAccessory
 
-// Remove old init method
++ (HAKUUID *)kelvinCharacteristicType
+
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information
 					characteristics:(HKBLightCapabilities)characteristics NS_UNAVAILABLE;
 
-/**
- *  Creates an accessory lightbulb object to match a LIFX bulb
- *
- *  @param lightBulb The LIFX bulbs API object for that light.
- */
 - (instancetype)initWithLightBulb:(LFXLight *)lightBulb;
 
 @end

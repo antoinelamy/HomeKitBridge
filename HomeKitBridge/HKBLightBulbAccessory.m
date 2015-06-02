@@ -117,34 +117,36 @@
 {
 	HAKCharacteristic *brightnessCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory brightnessCharacteristicType]];
 
-	// TODO
-	NSLog(@"%@", brightnessCharacteristic.constraints);
-//	brightness = MIN([brightnessCharacteristic.maximumValue integerValue], brightness);
-//	brightness = MAX([brightnessCharacteristic.minimumValue integerValue], brightness);
-	
-	brightnessCharacteristic.value = @(brightness);
+	if([brightnessCharacteristic.constraints validateValue:@(brightness)]) {
+		brightnessCharacteristic.value = @(brightness);
+	}
+	else {
+		NSLog(@"Invalid value for characteristic %@", brightnessCharacteristic);
+	}
 }
 
 - (void)saturationUpdated:(NSInteger)saturation
 {
 	HAKCharacteristic *saturationCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory saturationCharacteristicType]];
 
-	// TODO
-//	saturation = MIN([saturationCharacteristic.maximumValue floatValue], saturation);
-//	saturation = MAX([saturationCharacteristic.minimumValue floatValue], saturation);
-	
-	saturationCharacteristic.value = @(saturation);
+	if([saturationCharacteristic.constraints validateValue:@(saturation)]) {
+		saturationCharacteristic.value = @(saturation);
+	}
+	else {
+		NSLog(@"Invalid value for characteristic %@", saturationCharacteristic);
+	}
 }
 
 - (void)hueUpdated:(NSInteger)hue
 {
 	HAKCharacteristic *hueCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory hueCharacteristicType]];
 
-	// TODO
-//	hue = MIN([hueCharacteristic.maximumValue floatValue], hue);
-//	hue = MAX([hueCharacteristic.minimumValue floatValue], hue);
-	
-	hueCharacteristic.value = @(hue);
+	if([hueCharacteristic.constraints validateValue:@(hue)]) {
+		hueCharacteristic.value = @(hue);
+	}
+	else {
+		NSLog(@"Invalid value for characteristic %@", hueCharacteristic);
+	}
 }
 
 #pragma mark - HKBLightBulbControlProtocol

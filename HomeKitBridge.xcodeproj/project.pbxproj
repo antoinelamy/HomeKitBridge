@@ -120,6 +120,9 @@
 		C7397E8119E9F59D00FF9EA3 /* LIFXKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LIFXKit.framework; path = LIFX/LIFXKit.framework; sourceTree = "<group>"; };
 		C78BEFE419EB68660005278C /* HKBLIFXLightAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKBLIFXLightAccessory.h; path = LIFX/HKBLIFXLightAccessory.h; sourceTree = "<group>"; };
 		C78BEFE519EB68660005278C /* HKBLIFXLightAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKBLIFXLightAccessory.m; path = LIFX/HKBLIFXLightAccessory.m; sourceTree = "<group>"; };
+		E632ADE01B1DCDA0007E0086 /* HAKValueConstraints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HAKValueConstraints.h; path = "../../../Desktop/HomeKitBridge-master/HAPAccessoryKit Headers/HAKValueConstraints.h"; sourceTree = "<group>"; };
+		E632ADE11B1DCDBA007E0086 /* HAKStringConstraints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HAKStringConstraints.h; path = "../../../Desktop/HomeKitBridge-master/HAPAccessoryKit Headers/HAKStringConstraints.h"; sourceTree = "<group>"; };
+		E632ADE31B1DCE97007E0086 /* HAKNumberConstraints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HAKNumberConstraints.h; path = "../../../Desktop/HomeKitBridge-master/HAPAccessoryKit Headers/HAKNumberConstraints.h"; sourceTree = "<group>"; };
 		E6472DBF1B0CAC3E002DBD79 /* HAKConnectionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAKConnectionDelegate.h; sourceTree = "<group>"; };
 		E6C892FA1B15D2C60066AF9B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		ED6E2A411AB1B2C40078869C /* HKBDiscoveryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBDiscoveryService.h; sourceTree = "<group>"; };
@@ -242,6 +245,9 @@
 				C7397E1019E97F6500FF9EA3 /* HAKChaCha20Poly1305.h */,
 				C7397E1119E97F6500FF9EA3 /* HAKChaChaPolyData.h */,
 				C7397E1219E97F6500FF9EA3 /* HAKCharacteristic.h */,
+				E632ADE01B1DCDA0007E0086 /* HAKValueConstraints.h */,
+				E632ADE11B1DCDBA007E0086 /* HAKStringConstraints.h */,
+				E632ADE31B1DCE97007E0086 /* HAKNumberConstraints.h */,
 				C7397E1419E97F6500FF9EA3 /* HAKConnection.h */,
 				E6472DBF1B0CAC3E002DBD79 /* HAKConnectionDelegate.h */,
 				C7397E1519E97F6500FF9EA3 /* HAKControllerKeychainObject.h */,

@@ -79,11 +79,6 @@
 
 #pragma mark - Property Getters
 
-- (NSString *)name
-{
-	return self.accessory.name;
-}
-
 - (NSString *)passcode
 {
 	return self.transport.password;

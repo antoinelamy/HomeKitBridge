@@ -20,7 +20,6 @@ typedef NS_OPTIONS(NSInteger, HKBLightCapabilities) {
 
 
 @protocol HKBLightBulbControlProtocol <HKBSwitchControlProtocol>
-@optional
 - (void)setBrightness:(NSInteger)brightness; // 0-100
 - (void)setSaturation:(NSInteger)saturation; // 0-100
 - (void)setHue:(NSInteger)hue; // 0-360
@@ -28,7 +27,6 @@ typedef NS_OPTIONS(NSInteger, HKBLightCapabilities) {
 
 
 @protocol HKBLightBulbObserverProtocol <HKBSwitchObserverProtocol>
-@optional
 - (void)brightnessUpdated:(NSInteger)brightness;
 - (void)saturationUpdated:(NSInteger)saturation;
 - (void)hueUpdated:(NSInteger)hue;
@@ -45,6 +43,8 @@ typedef NS_OPTIONS(NSInteger, HKBLightCapabilities) {
 
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information
 					   capabilities:(HKBLightCapabilities)capabilities;
+
+- (HAKService *)lightBulbService;
 
 @end
 
