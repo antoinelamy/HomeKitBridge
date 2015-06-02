@@ -12,6 +12,7 @@
 #import <LIFXKit/LIFXKit.h>
 
 @interface HKBLIFXDiscoveryService () <LFXLightCollectionObserver>
+@property (nonatomic, getter=isDiscovering) BOOL discovering;
 @property (nonatomic) NSMutableDictionary *lights;
 @end
 
@@ -20,11 +21,13 @@
 
 - (void)startDiscovery
 {
+	self.discovering = YES;
 	[[[LFXClient sharedClient] localNetworkContext].allLightsCollection addLightCollectionObserver:self];
 }
 
 - (void)stopDiscovery
 {
+	self.discovering = NO;
 	[[[LFXClient sharedClient] localNetworkContext].allLightsCollection removeLightCollectionObserver:self];
 }
 
@@ -33,10 +36,10 @@
 	HKBLIFXLightAccessory *lightAccessory = self.lights[lifxLight.deviceID];
 	
 	if (!lightAccessory) {
-		HKBLIFXLightAccessory *light = [[HKBLIFXLightAccessory alloc] initWithLightBulb:lifxLight];
-		self.lights[lifxLight.deviceID] = light;
+		lightAccessory = [[HKBLIFXLightAccessory alloc] initWithLightBulb:lifxLight];
+		self.lights[lifxLight.deviceID] = lightAccessory;
 		
-		[self.delegate discoveryService:self didDiscoverAccessory:light];
+		[self.delegate discoveryService:self didDiscoverAccessory:lightAccessory];
 	}
 }
 

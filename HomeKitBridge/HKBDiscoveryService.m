@@ -20,4 +20,10 @@
 	// Do nothing, implement in subclass
 }
 
+- (BOOL)isDiscovering
+{
+	// Do nothing, implement in subclass
+	return NO;
+}
+
 @end

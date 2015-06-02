@@ -104,8 +104,6 @@
 - (void)discoveryService:(HKBDiscoveryService *)service didDiscoverAccessory:(HKBAccessory *)accessory
 {
 	if(![self.accessories containsObject:accessory]) {
-		[accessory setupServices];
-		
 		[self.accessories addObject:accessory];
 		[self.lightsMenu addItem:[self createMenuItemForAccessory:accessory]];
 	}

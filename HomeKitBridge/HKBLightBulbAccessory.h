@@ -12,10 +12,10 @@
 @class HKBLightBulbAccessory;
 
 
-typedef NS_OPTIONS(NSInteger, HKBLightCharacteristics) {
-	HKBLightCharacteristicHue =			1 << 0,
-	HKBLightCharacteristicSaturation =	1 << 1,
-	HKBLightCharacteristicBrightness =	1 << 2
+typedef NS_OPTIONS(NSInteger, HKBLightCapabilities) {
+	HKBLightCapabilityHue =			1 << 0,
+	HKBLightCapabilitySaturation =	1 << 1,
+	HKBLightCapabilityBrightness =	1 << 2
 };
 
 
@@ -35,20 +35,16 @@ typedef NS_OPTIONS(NSInteger, HKBLightCharacteristics) {
 @end
 
 
-@interface HKBLightBulbAccessory : HKBAccessory <HKBLightBulbControlProtocol, HKBLightBulbObserverProtocol>
+@interface HKBLightBulbAccessory : HKBSwitchAccessory <HKBLightBulbControlProtocol, HKBLightBulbObserverProtocol>
+
++ (HAKUUID *)brightnessCharacteristicType;
++ (HAKUUID *)hueCharacteristicType;
++ (HAKUUID *)saturationCharacteristicType;
 
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information NS_UNAVAILABLE;
 
-/**
- *  Create a new accessory with the supplied device information. If a key is missing the default information for that key will be used. "serialNumber" is a required key and will not be subsituted.
- *
- *  @param information Keys: "name", "serialNumber", "manufacturer", "model"
- *  @param characteristics The abilities the light has, an combo of: brightness, hue and saturation.
- */
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information
-					characteristics:(HKBLightCharacteristics)characteristics;
-
-@property (nonatomic, readonly) HKBLightCharacteristics characteristics;
+					   capabilities:(HKBLightCapabilities)capabilities;
 
 @end
 

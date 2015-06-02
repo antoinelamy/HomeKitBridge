@@ -56,12 +56,6 @@
  */
 @property (nonatomic, readonly) NSString *passcode;
 
-
-/**
- *  The default device information to be used if none is supplied. Keys: "name", "manufacturer", "model"
- */
-+ (HKBAccessoryInformation *)defaultInformation; // SUBCLASSES: Required to implement or it will fail to connect!
-
 /**
  *  Add services to the accessory here. NOTE: Must call super.
  */

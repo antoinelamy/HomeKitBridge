@@ -4,6 +4,7 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
+#import <objc/NSObject.h>
 
 @interface HAKSocket : NSObject
 {
@@ -18,6 +19,7 @@
 @property(nonatomic) struct __CFSocket *ipv4Socket; // @synthesize ipv4Socket=_ipv4Socket;
 @property __weak id <HAKSocketDelegate> delegate; // @synthesize delegate=_delegate;
 @property(nonatomic) unsigned long long port; // @synthesize port=_port;
+- (void).cxx_destruct;
 - (void)removeFromRunLoop:(id)arg1 forMode:(id)arg2;
 - (void)scheduleInRunLoop:(id)arg1 forMode:(id)arg2;
 - (BOOL)_bindIPV6Socket;

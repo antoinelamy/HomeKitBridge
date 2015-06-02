@@ -18,6 +18,7 @@
 
 - (void)startDiscovery;
 - (void)stopDiscovery;
+- (BOOL)isDiscovering;
 
 @end
 

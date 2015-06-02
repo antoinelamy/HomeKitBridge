@@ -9,62 +9,76 @@
 #import "HKBLightBulbAccessory.h"
 
 @interface HKBLightBulbAccessory ()
-@property (nonatomic) HAKLightBulbService *lightBulbService;
-@property (nonatomic) HKBLightCharacteristics characteristics;
+@property (nonatomic) HAKService *lightBulbService;
+@property (nonatomic) HKBLightCapabilities capabilities;
 @end
 
 
 @implementation HKBLightBulbAccessory
 
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information
-				 characteristics:(HKBLightCharacteristics)characteristics
+					   capabilities:(HKBLightCapabilities)capabilities
 {
 	self = [super initWithInformation:information];
 	if (self) {
-		self.characteristics = characteristics;
+		self.capabilities = capabilities;
 	}
 	
 	return self;
 }
 
-+ (HKBAccessoryInformation *)defaultInformation
++ (HAKUUID *)lightBulbAccessoryServiceType
 {
-	return [[HKBAccessoryInformation alloc] initWithName:@"Lightbulb"
-											manufacturer:@"Kyle Tech"
-												   model:@"WiFi Lightbulb v1.0"];
+	return [HAKUUID UUIDWithUUIDString:@"00000043"];
+}
+
++ (NSString *)lightBulbAccessoryServiceName
+{
+	return @"Lightbulb Service";
+}
+
++ (HAKUUID *)brightnessCharacteristicType
+{
+	return [HAKUUID UUIDWithUUIDString:@"00000008-0000-1000-8000-0026BB765291"];
+}
+
++ (HAKUUID *)hueCharacteristicType
+{
+	return [HAKUUID UUIDWithUUIDString:@"00000013-0000-1000-8000-0026BB765291"];
+}
+
++ (HAKUUID *)saturationCharacteristicType
+{
+	return [HAKUUID UUIDWithUUIDString:@"0000002F-0000-1000-8000-0026BB765291"];
 }
 
 - (void)setupServices
 {
-	[super setupServices];
+	self.lightBulbService = [[HAKService alloc] initWithType:[[self class] lightBulbAccessoryServiceType] name:[[self class] lightBulbAccessoryServiceName]];
 	
-	// Setup the lightbulb
-	self.lightBulbService = [[HAKLightBulbService alloc] init];
-	
-	// Name characteristic
-	HAKNameCharacteristic *serviceName = [HAKNameCharacteristic new];
-	serviceName.name = self.accessory.accessoryInformationService.nameCharacteristic.name;
-	[self.lightBulbService setNameCharacteristic:serviceName];
-	
-	// If supports controlling brightness
-	if (self.characteristics & HKBLightCharacteristicBrightness) {
-		HAKBrightnessCharacteristic *brightnessCharacteristic = [[HAKBrightnessCharacteristic alloc] init];
-		self.lightBulbService.brightnessCharacteristic = brightnessCharacteristic;
+	if (self.capabilities & HKBLightCapabilityBrightness) {
+		HAKCharacteristic *brightnessCharacteristic = [[HAKCharacteristic alloc] initWithType:[HKBLightBulbAccessory brightnessCharacteristicType]];
+		[self.lightBulbService addCharacteristic:brightnessCharacteristic];
 	}
 	
-	// If supports controlling Hue
-	if (self.characteristics & HKBLightCharacteristicHue) {
-		HAKHueCharacteristic *hueCharacteristic = [[HAKHueCharacteristic alloc] init];
-		self.lightBulbService.hueCharacteristic = hueCharacteristic;
+	if (self.capabilities & HKBLightCapabilityHue) {
+		HAKCharacteristic *hueCharacteristic = [[HAKCharacteristic alloc] initWithType:[HKBLightBulbAccessory hueCharacteristicType]];
+		[self.lightBulbService addCharacteristic:hueCharacteristic];
 	}
 
-	// If supports controlling Saturation
-	if (self.characteristics & HKBLightCharacteristicSaturation) {
-		HAKSaturationCharacteristic *saturationCharacteristic = [[HAKSaturationCharacteristic alloc] init];
-		self.lightBulbService.saturationCharacteristic = saturationCharacteristic;
+	if (self.capabilities & HKBLightCapabilitySaturation) {
+		HAKCharacteristic *saturationCharacteristic = [[HAKCharacteristic alloc] initWithType:[HKBLightBulbAccessory saturationCharacteristicType]];
+		[self.lightBulbService addCharacteristic:saturationCharacteristic];
 	}
 	
 	[self.accessory addService:self.lightBulbService];
+	
+	[super setupServices];
+}
+
+- (HAKService *)switchService
+{
+	return self.lightBulbService;
 }
 
 
@@ -75,34 +89,22 @@
 	[super characteristicDidUpdateValue:characteristic];
 	
 	if(characteristic.service == self.lightBulbService) {
-		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
-			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
-			[self setName:nameCharacteristic.name];
-		}
 		
-		if ([characteristic isKindOfClass:[HAKOnCharacteristic class]]) {
-			HAKOnCharacteristic *onCharacteristic = (HAKOnCharacteristic *)characteristic;
-			[self setPowerState:onCharacteristic.boolValue];
-		}
-		
-		if ([characteristic isKindOfClass:[HAKBrightnessCharacteristic class]]) {
-			HAKBrightnessCharacteristic *brightnessCharacteristic = (HAKBrightnessCharacteristic*)characteristic;
+		if([characteristic.type isEqual:[HKBLightBulbAccessory brightnessCharacteristicType]]) {
 			if ([self respondsToSelector:@selector(setBrightness:)]) {
-				[self setBrightness:brightnessCharacteristic.brightness];
+				[self setBrightness:[characteristic.value integerValue]];
 			}
 		}
 		
-		if ([characteristic isKindOfClass:[HAKSaturationCharacteristic class]]) {
-			HAKSaturationCharacteristic *saturationCharacteristic = (HAKSaturationCharacteristic*)characteristic;
+		if([characteristic.type isEqual:[HKBLightBulbAccessory saturationCharacteristicType]]) {
 			if ([self respondsToSelector:@selector(setSaturation:)]) {
-				[self setSaturation:saturationCharacteristic.saturation];
+				[self setSaturation:[characteristic.value integerValue]];
 			}
 		}
 		
-		if ([characteristic isKindOfClass:[HAKHueCharacteristic class]]) {
-			HAKHueCharacteristic *hueCharacteristic = (HAKHueCharacteristic*)characteristic;
+		if([characteristic.type isEqual:[HKBLightBulbAccessory hueCharacteristicType]]) {
 			if ([self respondsToSelector:@selector(setHue:)]) {
-				[self setHue:hueCharacteristic.hue];
+				[self setHue:[characteristic.value integerValue]];
 			}
 		}
 	}
@@ -111,57 +113,41 @@
 
 #pragma mark - HKBLightBulbObserverProtocol
 
-- (void)nameUpdated:(NSString *)name
-{
-	[self.lightBulbService.nameCharacteristic setStringValue:name];
-}
-
-- (void)powerStateUpdated:(BOOL)powerState
-{
-	[self.lightBulbService.onCharacteristic setBoolValue:powerState];
-}
-
 - (void)brightnessUpdated:(NSInteger)brightness
 {
-	HAKBrightnessCharacteristic *brightnessCharacteristic = self.lightBulbService.brightnessCharacteristic;
+	HAKCharacteristic *brightnessCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory brightnessCharacteristicType]];
+
+	// TODO
+	NSLog(@"%@", brightnessCharacteristic.constraints);
+//	brightness = MIN([brightnessCharacteristic.maximumValue integerValue], brightness);
+//	brightness = MAX([brightnessCharacteristic.minimumValue integerValue], brightness);
 	
-	brightness = MIN([brightnessCharacteristic.maximumValue integerValue], brightness);
-	brightness = MAX([brightnessCharacteristic.minimumValue integerValue], brightness);
-	
-	[brightnessCharacteristic setIntegerValue:brightness];
+	brightnessCharacteristic.value = @(brightness);
 }
 
 - (void)saturationUpdated:(NSInteger)saturation
 {
-	HAKSaturationCharacteristic *saturationCharacteristic = self.lightBulbService.saturationCharacteristic;
+	HAKCharacteristic *saturationCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory saturationCharacteristicType]];
+
+	// TODO
+//	saturation = MIN([saturationCharacteristic.maximumValue floatValue], saturation);
+//	saturation = MAX([saturationCharacteristic.minimumValue floatValue], saturation);
 	
-	saturation = MIN([saturationCharacteristic.maximumValue floatValue], saturation);
-	saturation = MAX([saturationCharacteristic.minimumValue floatValue], saturation);
-	
-	[saturationCharacteristic setFloatValue:saturation];
+	saturationCharacteristic.value = @(saturation);
 }
 
 - (void)hueUpdated:(NSInteger)hue
 {
-	HAKHueCharacteristic *hueCharacteristic = self.lightBulbService.hueCharacteristic;
+	HAKCharacteristic *hueCharacteristic = [self.lightBulbService characteristicWithType:[HKBLightBulbAccessory hueCharacteristicType]];
+
+	// TODO
+//	hue = MIN([hueCharacteristic.maximumValue floatValue], hue);
+//	hue = MAX([hueCharacteristic.minimumValue floatValue], hue);
 	
-	hue = MIN([hueCharacteristic.maximumValue floatValue], hue);
-	hue = MAX([hueCharacteristic.minimumValue floatValue], hue);
-	
-	[hueCharacteristic setFloatValue:hue];
+	hueCharacteristic.value = @(hue);
 }
 
 #pragma mark - HKBLightBulbControlProtocol
-
-- (void)setName:(NSString *)name
-{
-	// Do nothing, implement in subclass
-}
-
-- (void)setPowerState:(BOOL)powerState
-{
-	// Do nothing, implement in subclass
-}
 
 - (void)setBrightness:(NSInteger)brightness
 {

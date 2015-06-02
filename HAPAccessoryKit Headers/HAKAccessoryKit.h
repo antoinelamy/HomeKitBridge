@@ -7,26 +7,16 @@
 
 // Other
 #import "HAKAccessory.h"
-#import "HAKTransportManager.h"
 #import "HAKTransport.h"
 #import "HAKIPTransport.h"
 
 
 // Services
+#import "HAKService.h"
 #import "HAKAccessoryInformationService.h"
-#import "HAKLightBulbService.h"
 
 
 // Characteristics
 #import "HAKCharacteristic.h"
 #import "HAKIdentifyCharacteristic.h"
-#import "HAKSerialNumberCharacteristic.h"
-#import "HAKModelCharacteristic.h"
-#import "HAKManufacturerCharacteristic.h"
-#import "HAKNameCharacteristic.h"
-
-#import "HAKOnCharacteristic.h"
-#import "HAKHueCharacteristic.h"
-#import "HAKBrightnessCharacteristic.h"
-#import "HAKSaturationCharacteristic.h"
 

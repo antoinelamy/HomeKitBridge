@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HAKAccessoryKit.h"
 
-@interface HKBTransportManagerBuilder : NSObject
+@interface HKBTransportManager : NSObject
 
-+ (HAKTransportManager *)transportManagerForSerialNumber:(NSString *)serialNumber;
++ (HAKTransport *)transportForSerialNumber:(NSString *)serialNumber;
 
 @end

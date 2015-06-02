@@ -18,18 +18,6 @@
 
 @implementation HKBAccessoryInformation
 
-- (instancetype)init
-{
-	return [self initWithName:@"Accessory" manufacturer:@"Kyle Tech" model:@"Accessory v1.0" serialNumber:nil];
-}
-
-- (instancetype)initWithName:(NSString *)name
-				manufacturer:(NSString *)manufacturer
-					   model:(NSString *)model
-{
-	return [self initWithName:name manufacturer:manufacturer model:model serialNumber:nil];
-}
-
 - (instancetype)initWithName:(NSString *)name
 				manufacturer:(NSString *)manufacturer
 					   model:(NSString *)model

@@ -4,28 +4,20 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
-#import "HAKBoolCharacteristic.h"
+#import "HAKCharacteristic.h"
 
-
-@class NSTimer;
-
-@interface HAKIdentifyCharacteristic : HAKBoolCharacteristic <NSCoding>
+@interface HAKIdentifyCharacteristic : HAKCharacteristic
 {
-    NSTimer *_resetTimer;
+    double _routineDuration;
+    NSObject<OS_dispatch_source> *_routineDurationTimer;
 }
 
-+ (unsigned long long)properties;
-+ (id)type;
-+ (void)timerThreadMain;
-+ (void)createTimerThreadIfNeeded;
-@property(retain) NSTimer *resetTimer; // @synthesize resetTimer=_resetTimer;
-- (void)_reset:(id)arg1;
-- (void)scheduleResetTimer;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)handleValueUpdate:(id)arg1 connection:(id)arg2;
-@property(readonly, nonatomic, getter=isIdentifying) BOOL identify;
-- (id)init;
+@property(retain, nonatomic) NSObject<OS_dispatch_source> *routineDurationTimer; // @synthesize routineDurationTimer=_routineDurationTimer;
+@property(retain, nonatomic) NSObject<OS_dispatch_queue> *workQueue; // @synthesize workQueue=_workQueue;
+@property(nonatomic) double routineDuration; // @synthesize routineDuration=_routineDuration;
+
+- (id)initWithType:(id)arg1 properties:(unsigned long long)arg2 format:(unsigned long long)arg3;
+- (id)handleWriteRequest:(id)arg1;
 
 @end
 

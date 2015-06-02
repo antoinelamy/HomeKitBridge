@@ -4,6 +4,7 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
+#import <objc/NSObject.h>
 
 @class NSData;
 
@@ -14,7 +15,8 @@
 }
 
 + (id)hashWithType:(unsigned long long)arg1 key:(id)arg2 salt:(id)arg3 info:(id)arg4 length:(unsigned long long)arg5;
-@property(retain) NSData *pseudoRandomKey; // @synthesize pseudoRandomKey=_pseudoRandomKey;
+@property(retain, nonatomic) NSData *pseudoRandomKey; // @synthesize pseudoRandomKey=_pseudoRandomKey;
+- (void).cxx_destruct;
 - (id)expandWithInfo:(id)arg1 length:(unsigned long long)arg2;
 - (void)extractWithSalt:(id)arg1 inputKey:(id)arg2;
 - (unsigned int)hmacAlgorithm;

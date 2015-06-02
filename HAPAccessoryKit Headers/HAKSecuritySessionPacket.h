@@ -4,6 +4,7 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
+#import <objc/NSObject.h>
 
 @class NSData, NSMutableData;
 
@@ -19,9 +20,9 @@
 @property(nonatomic, getter=isComplete) BOOL complete; // @synthesize complete=_complete;
 @property(readonly, nonatomic) NSData *authTag; // @synthesize authTag=_authTag;
 @property(readonly, nonatomic) NSData *encryptedData; // @synthesize encryptedData=_encryptedData;
+
 - (id)chaChaPolyData;
 - (long long)appendData:(id)arg1;
-- (id)init;
 
 @end
 

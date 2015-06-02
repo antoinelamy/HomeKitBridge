@@ -6,19 +6,23 @@
 
 #import "HAKService.h"
 
-@class HAKIdentifyCharacteristic, HAKManufacturerCharacteristic, HAKModelCharacteristic, HAKNameCharacteristic, HAKSerialNumberCharacteristic;
+@class HAKCharacteristic;
 
 @interface HAKAccessoryInformationService : HAKService
-{
-}
 
-+ (id)type;
-@property(readonly, nonatomic) HAKIdentifyCharacteristic *identifyCharacteristic;
-@property(readonly, nonatomic) HAKSerialNumberCharacteristic *serialNumberCharacteristic;
-@property(readonly, nonatomic) HAKModelCharacteristic *modelCharacteristic;
-@property(readonly, nonatomic) HAKManufacturerCharacteristic *manufacturerCharacteristic;
-@property(readonly, nonatomic) HAKNameCharacteristic *nameCharacteristic;
-- (id)init;
++ (id)accessoryInformationService;
+
+@property(readonly, nonatomic) HAKCharacteristic *serialNumberCharacteristic;
+@property(readonly, nonatomic) HAKCharacteristic *modelCharacteristic;
+@property(readonly, nonatomic) HAKCharacteristic *manufacturerCharacteristic;
+@property(readonly, nonatomic) HAKCharacteristic *nameCharacteristic;
+@property(readonly, nonatomic) HAKCharacteristic *identifyCharacteristic;
+
+- (id)initWithType:(id)arg1 isPrimary:(BOOL)arg2 characteristics:(id)arg3 includedServices:(id)arg4;
+
+- (void)addIncludedService:(id)arg1;
+- (void)removeCharacteristic:(id)arg1;
+- (id)_restrictedCharacteristicSet;
 
 @end
 

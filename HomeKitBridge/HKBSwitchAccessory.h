@@ -22,4 +22,8 @@
 
 @interface HKBSwitchAccessory : HKBAccessory <HKBSwitchControlProtocol, HKBSwitchObserverProtocol>
 
++ (HAKUUID *)powerStateCharacteristicType;
+
+- (HAKService *)switchService;
+
 @end

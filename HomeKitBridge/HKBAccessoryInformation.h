@@ -17,10 +17,6 @@
 
 - (instancetype)initWithName:(NSString *)name
 				manufacturer:(NSString *)manufacturer
-					   model:(NSString *)model;
-
-- (instancetype)initWithName:(NSString *)name
-				manufacturer:(NSString *)manufacturer
 					   model:(NSString *)model
 				serialNumber:(NSString *)serialNumber;
 

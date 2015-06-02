@@ -7,49 +7,51 @@
 //
 
 #import "HKBSwitchAccessory.h"
-#import "HAKSwitchService.h"
+#import "HAKService.h"
 
 
 @interface HKBSwitchAccessory ()
-@property (nonatomic) HAKSwitchService *switchService;
+@property (nonatomic) HAKService *switchService;
 @end
 
 
 @implementation HKBSwitchAccessory
 
-+ (HKBAccessoryInformation *)defaultInformation
++ (HAKUUID *)switchAccessoryServiceType
 {
-	return [[HKBAccessoryInformation alloc] initWithName:@"Power Switch"
-											manufacturer:@"Kyle Tech"
-												   model:@"WiFi Power Switch v1.0"];
+	return [HAKUUID UUIDWithUUIDString:@"00000049"];
+}
+
++ (NSString *)switchAccessoryServiceName
+{
+	return @"Switch Service";
+}
+
++ (HAKUUID *)powerStateCharacteristicType;
+{
+	return [HAKUUID UUIDWithUUIDString:@"00000025-0000-1000-8000-0026BB765291"];
 }
 
 - (void)setupServices
 {
+	if(!self.switchService) {
+		self.switchService = [[HAKService alloc] initWithType:[[self class] switchAccessoryServiceType] name:[[self class] switchAccessoryServiceName]];
+		
+		HAKCharacteristic *powerStateCharacteristic = [[HAKCharacteristic alloc] initWithType:[HKBSwitchAccessory powerStateCharacteristicType]];
+		[self.switchService addCharacteristic:powerStateCharacteristic];
+		[self.accessory addService:self.switchService];
+	}
+	
 	[super setupServices];
-	
-	self.switchService = [[HAKSwitchService alloc] init];
-	
-	HAKNameCharacteristic *serviceName = [HAKNameCharacteristic new];
-	serviceName.name = self.accessory.accessoryInformationService.nameCharacteristic.name;
-	[self.switchService setNameCharacteristic:serviceName];
-	
-	[self.accessory addService:self.switchService];
 }
 
-- (void)characteristicDidUpdateValue:(HAKCharacteristic*)characteristic
+- (void)characteristicDidUpdateValue:(HAKCharacteristic *)characteristic
 {
 	[super characteristicDidUpdateValue:characteristic];
 	
 	if(characteristic.service == self.switchService) {
-		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
-			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
-			[self setName:nameCharacteristic.name];
-		}
-		
-		if ([characteristic isKindOfClass:[HAKOnCharacteristic class]]) {
-			HAKOnCharacteristic *onCharacteristic = (HAKOnCharacteristic *)characteristic;
-			[self setPowerState:onCharacteristic.boolValue];
+		if ([characteristic.type isEqual:[HKBSwitchAccessory powerStateCharacteristicType]]) {
+			[self setPowerState:[characteristic.value boolValue]];
 		}
 	}
 }
@@ -57,23 +59,14 @@
 
 #pragma mark - HKBSwitchObserverProtocol
 
-- (void)nameUpdated:(NSString *)name
-{
-	[self.switchService.nameCharacteristic setStringValue:name];
-}
-
 - (void)powerStateUpdated:(BOOL)powerState
 {
-	[self.switchService.onCharacteristic setBoolValue:powerState];
+	HAKCharacteristic *powerStateCharacteristic = [self.switchService characteristicWithType:[HKBSwitchAccessory powerStateCharacteristicType]];
+	powerStateCharacteristic.value = @(powerState);
 }
 
 
 #pragma mark - HKBSwitchControlProtocol
-
-- (void)setName:(NSString *)name
-{
-	// Do nothing, implement in subclass
-}
 
 - (void)setPowerState:(BOOL)powerState
 {

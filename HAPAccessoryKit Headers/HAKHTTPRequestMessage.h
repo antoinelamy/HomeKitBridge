@@ -4,21 +4,24 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
-#import "HAKHTTPMessage.h"
+#import <HAPAccessoryKit/HAKHTTPMessage.h>
 
-@class NSString, NSURL;
+@class HAKIPConnection, NSString, NSURL;
 
 @interface HAKHTTPRequestMessage : HAKHTTPMessage
 {
+    HAKIPConnection *_connection;
 }
 
-@property(readonly) BOOL isComplete;
-@property(readonly) BOOL isBodyComplete;
-@property(readonly) unsigned long long bodyLength;
-@property(readonly) NSURL *url;
-@property(readonly) NSString *method;
+@property(readonly, nonatomic) HAKIPConnection *connection; // @synthesize connection=_connection;
+- (void).cxx_destruct;
+@property(readonly, nonatomic) BOOL isComplete;
+@property(readonly, nonatomic) BOOL isBodyComplete;
+@property(readonly, nonatomic) unsigned long long bodyLength;
+@property(readonly, nonatomic) NSURL *url;
+@property(readonly, nonatomic) NSString *method;
 - (id)description;
-- (id)init;
+- (id)initWithConnection:(id)arg1;
 
 @end
 

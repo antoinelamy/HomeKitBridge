@@ -7,13 +7,13 @@
 //
 
 #import "HKBAccessory.h"
-#import "HKBTransportManagerBuilder.h"
+#import "HKBTransportManager.h"
+#import "HAKNetService.h"
 
 @interface HKBAccessory ()
 @property (nonatomic) HAKAccessory *accessory;
 @property (nonatomic) HKBAccessoryInformation *information;
-@property (nonatomic) HAKTransportManager *transportManager;
-@property (nonatomic) HAKAccessoryInformationService *informationService;
+@property (nonatomic) HAKTransport *transport;
 @end
 
 
@@ -23,8 +23,13 @@
 {
 	self = [super init];
 	if (self) {
-		self.accessory = [[HAKAccessory alloc] init];
 		self.information = information;
+		
+		self.accessory = [[HAKAccessory alloc] init];
+		self.accessory.name = information.name;
+		self.accessory.manufacturer = information.manufacturer;
+		self.accessory.model = information.model;
+		self.accessory.serialNumber = information.serialNumber;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(characteristicDidUpdateValueNotification:) name:@"HAKCharacteristicDidUpdateValueNotification" object:nil];
 	}
@@ -37,40 +42,15 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-+ (HKBAccessoryInformation *)defaultInformation
-{
-	return [HKBAccessoryInformation new];
-}
-
 - (void)setupServices
 {
-	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
-
-	self.informationService = [[HAKAccessoryInformationService alloc] init];
-	self.informationService.nameCharacteristic.name = self.information.name ?: defaultInformation.name;
-	self.informationService.manufacturerCharacteristic.manufacturer = self.information.manufacturer ?: defaultInformation.manufacturer;
-	self.informationService.modelCharacteristic.model = self.information.model ?: defaultInformation.model;
-	self.informationService.serialNumberCharacteristic.serialNumber = self.information.serialNumber;
-	
-	[self.accessory addService:self.informationService];
-	
-	[self activateAccessory];
+	[self setupTransport];
 }
 
-- (void)activateAccessory
+- (void)setupTransport
 {
-	HAKAccessoryInformationService *informationService = [self.accessory accessoryInformationService];
-	NSString *name = [informationService nameCharacteristic].name;
-	NSString *serialNumber = [informationService serialNumberCharacteristic].serialNumber;
-	
-	self.transportManager = [HKBTransportManagerBuilder transportManagerForSerialNumber:serialNumber];
+	self.transport = [HKBTransportManager transportForSerialNumber:self.information.serialNumber];
 	[self.transport addAccessory:self.accessory];
-	
-	NSLog(@"Transport: %@", self.transport);
-	NSLog(@"Password: %@", self.transport.password);
-	
-	[self.transportManager setName:name];
-	[self.transport setName:name];
 	
 	[self.transport start];
 }
@@ -90,24 +70,18 @@
 
 - (void)characteristicDidUpdateValue:(HAKCharacteristic *)characteristic
 {
-	if(characteristic.service == self.informationService) {
-		if ([characteristic isKindOfClass:[HAKNameCharacteristic class]]) {
-			HAKNameCharacteristic *nameCharacteristic = (HAKNameCharacteristic *)characteristic;
-			[self setName:nameCharacteristic.name];
+	if(characteristic.service == self.accessory.accessoryInformationService) {
+		if(characteristic == self.accessory.accessoryInformationService.nameCharacteristic) {
+			[self setName:characteristic.value];
 		}
 	}
 }
 
 #pragma mark - Property Getters
 
-- (HAKTransport *)transport
-{
-	return [self.transportManager.transports firstObject];
-}
-
 - (NSString *)name
 {
-	return self.accessory.accessoryInformationService.nameCharacteristic.name;
+	return self.accessory.name;
 }
 
 - (NSString *)passcode
@@ -119,7 +93,7 @@
 
 - (void)nameUpdated:(NSString *)name
 {
-	[self.informationService.nameCharacteristic setStringValue:name];
+	[self.accessory.accessoryInformationService.nameCharacteristic setValue:name];
 }
 
 #pragma mark - HKBAccessoryControlProtocol

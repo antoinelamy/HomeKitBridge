@@ -4,8 +4,9 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
+#import <objc/NSObject.h>
 
-@class HAKKeychainKey, NSString;
+@class HAKKeychainKey;
 
 @interface HAKAccessoryKeychainObject : NSObject
 {
@@ -15,10 +16,14 @@
 
 @property(retain, nonatomic) HAKKeychainKey *key; // @synthesize key=_key;
 @property(copy, nonatomic) NSString *identifier; // @synthesize identifier=_identifier;
-- (BOOL)removeController:(id)arg1 error:(id *)arg2;
+
+@property(readonly, nonatomic) NSArray *controllers;
+
+- (id)initWithIdentifier:(id)arg1;
+
 - (BOOL)addController:(id)arg1 error:(id *)arg2;
 - (id)controllerWithIdentifier:(id)arg1;
-- (id)initWithIdentifier:(id)arg1;
+- (BOOL)removeController:(id)arg1 error:(NSError *)arg2;
 
 @end
 

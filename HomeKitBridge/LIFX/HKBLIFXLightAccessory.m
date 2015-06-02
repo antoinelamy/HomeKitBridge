@@ -20,16 +20,16 @@
 
 - (instancetype)initWithLightBulb:(LFXLight*)lightBulb
 {
-	HKBLightCharacteristics lightAbilities = (HKBLightCharacteristicBrightness | HKBLightCharacteristicHue | HKBLightCharacteristicSaturation);
+	HKBLightCapabilities lightCapabilities = (HKBLightCapabilityBrightness | HKBLightCapabilityHue | HKBLightCapabilitySaturation);
 	
-	HKBAccessoryInformation *defaultInformation = [[self class] defaultInformation];
-	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:[lightBulb.label length] > 0 ? lightBulb.label : nil
-																			manufacturer:defaultInformation.manufacturer
-																				   model:defaultInformation.model
+	HKBAccessoryInformation *information = [[HKBAccessoryInformation alloc] initWithName:[lightBulb.label length] > 0 ? lightBulb.label : @"LIFX multi-color LED bulb"
+																			manufacturer:@"LIFX"
+																				   model:@"17W Wi-Fi LED smart bulb"
 																			serialNumber:lightBulb.deviceID];
 	
-	if (self = [super initWithInformation:information characteristics:lightAbilities]) {
+	if (self = [super initWithInformation:information capabilities:lightCapabilities]) {
 		self.lifxBulb = lightBulb;
+		[self setupServices];
 		
 		// Initial values
 		[self light:self.lifxBulb didChangeColor:self.lifxBulb.color];
@@ -45,13 +45,6 @@
 - (void)dealloc
 {
 	[self.lifxBulb removeLightObserver:self];
-}
-
-+ (HKBAccessoryInformation *)defaultInformation
-{
-	return [[HKBAccessoryInformation alloc] initWithName:@"Lightbulb"
-											manufacturer:@"LIFX"
-												   model:@"WiFi bulb white v1"];
 }
 
 
