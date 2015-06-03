@@ -4,7 +4,7 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2013 by Steve Nygard.
 //
 
-#import <HAPAccessoryKit/HAKValueConstraints.h>
+#import "HAKValueConstraints.h"
 
 @class NSNumber;
 
@@ -18,15 +18,8 @@
 @property(copy, nonatomic) NSNumber *stepValue; // @synthesize stepValue=_stepValue;
 @property(readonly, copy, nonatomic) NSNumber *maximumValue; // @synthesize maximumValue=_maximumValue;
 @property(readonly, copy, nonatomic) NSNumber *minimumValue; // @synthesize minimumValue=_minimumValue;
-- (void).cxx_destruct;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (id)copyWithZone:(struct _NSZone *)arg1;
-- (BOOL)validateValue:(id)arg1;
-- (id)description;
+
 - (id)initWithMinimumValue:(id)arg1 maximumValue:(id)arg2;
-- (id)init;
-- (id)attributes;
 
 @end
 

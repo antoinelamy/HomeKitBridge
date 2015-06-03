@@ -57,9 +57,11 @@
 {
 	[super setupServices];
 	
-	HAKCharacteristic *kelvinCharacteristic = [[HAKCharacteristic alloc] initWithType:[[self class] kelvinCharacteristicType]];
+	// TODO: Find out meaning of properties, 11 means [pr, pw, ev]
+	HAKCharacteristic *kelvinCharacteristic = [[HAKCharacteristic alloc] initWithType:[[self class] kelvinCharacteristicType] properties:11 format:HAKCharacteristicFormatUInt16];
 	HAKNumberConstraints *kelvinNumberConstraints = [[HAKNumberConstraints alloc] initWithMinimumValue:@(LFXHSBKColorMinKelvin) maximumValue:@(LFXHSBKColorMaxKelvin)];
 	kelvinCharacteristic.constraints = kelvinNumberConstraints;
+	
 	[self.lightBulbService addCharacteristic:kelvinCharacteristic];
 }
 
@@ -83,7 +85,7 @@
 
 - (void)kelvinUpdated:(NSUInteger)kelvin
 {
-	HAKCharacteristic *kelvinCharacteristic = [self.lightBulbService characteristicWithType:[HKBLIFXLightAccessory kelvinCharacteristicType]];
+	HAKCharacteristic *kelvinCharacteristic = [self.lightBulbService characteristicWithType:[[self class] kelvinCharacteristicType]];
 	
 	if([kelvinCharacteristic.constraints validateValue:@(kelvin)]) {
 		kelvinCharacteristic.value = @(kelvin);

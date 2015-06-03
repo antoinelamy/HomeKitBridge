@@ -17,13 +17,13 @@
 
 
 @protocol HKBLIFXLightBulbObserverProtocol <HKBLightBulbObserverProtocol>
-- (void)kelvinUpdated:(NSUInteger)kelvin
+- (void)kelvinUpdated:(NSUInteger)kelvin;
 @end
 
 
 @interface HKBLIFXLightAccessory : HKBLightBulbAccessory <HKBLightBulbControlProtocol, HKBLightBulbObserverProtocol>
 
-+ (HAKUUID *)kelvinCharacteristicType
++ (HAKUUID *)kelvinCharacteristicType;
 
 - (instancetype)initWithInformation:(HKBAccessoryInformation *)information
 					characteristics:(HKBLightCapabilities)characteristics NS_UNAVAILABLE;
